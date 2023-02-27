@@ -6,6 +6,7 @@ def index(request):
 
 
 def show_recent_records(request):
+    # page_no, page_size
     return HttpResponse("Show Recent Records")
 
 
