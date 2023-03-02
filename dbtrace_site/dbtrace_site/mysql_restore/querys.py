@@ -1,1 +1,1 @@
-import .inits
+import inits
