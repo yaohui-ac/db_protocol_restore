@@ -1,5 +1,2 @@
-main:main.o
-	gcc  main.o -o main -lpcap
-main.o:main.c
-	gcc -c main.c -o main.o 
-	
+tcp:tcp.cpp
+	g++ -g test.cpp -o mysql -lpcap -lnet -lnids -lgthread-2.0 -lglib-2.0
