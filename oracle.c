@@ -6,6 +6,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <nids.h>
+#include "nids.h"
+#include "pcap.h"
+#include "libnet.h"
 
 void handle_oracle_request(struct tcp_stream *tcp, void **arg)
 {
@@ -65,11 +68,12 @@ int main(int argc, char **argv)
   nids_params.scan_num_hosts = 0;
   nids_params.syslog = 0;
 
-  if (nids_register_tcp(handle_oracle_request) == -1)
-  {
-    fprintf(stderr, "%s\n", nids_errbuf);
-    exit(EXIT_FAILURE);
-  }
+  // if (nids_register_tcp(handle_oracle_request) == -1)
+  // {
+  //   fprintf(stderr, "%s\n", nids_errbuf);
+  //   exit(EXIT_FAILURE);
+  // }
+  nids_register_tcp((void*)handle_oracle_request);
 
   if (nids_run() == 0)
   {
