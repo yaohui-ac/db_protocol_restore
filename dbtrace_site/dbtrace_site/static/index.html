@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MySQL网络报文还原系统 - 作者: 张耀辉</title>
+	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.4.1/styles/default.min.css">
+	<link rel="icon" href="R-C.jpg">
+	<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
+	<style>
+		.container {
+			margin-top: 50px;
+		}
+		.form-group {
+			margin-bottom: 20px;
+		}
+		.table td {
+			vertical-align: middle;
+			position: relative;
+			cursor: pointer;
+		}
+		.sql-code {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-top: 10px;
+			padding: 10px;
+			background-color: #f5f5f5;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			font-size: 14px;
+			white-space: pre-wrap;
+			z-index: 10;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			max-height: 300px;
+			overflow-y: auto;
+		}
+		.show-sql-code {
+			color: blue;
+			text-decoration: underline;
+		}
+		.show-sql-code:hover {
+			color: #0056b3;
+			text-decoration: underline;
+		}
+		.copy-code {
+			position: absolute;
+			top: -5px;
+			right: -5px;
+			background-color: #fff;
+			border-radius: 50%;
+			padding: 3px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			z-index: 11;
+			cursor: pointer;
+			display: none;
+			color: #666;
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.copy-code:hover {
+			color: #333;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		footer {
+			margin-top: 50px;
+			text-align: center;
+			color: #666;
+		}
+		.card-group {
+			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 20px;
+		}
+		.card {
+			flex: 1;
+			margin-right: 10px;
+			margin-bottom: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>MySQL网络报文还原系统</h1>
+		<form>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="username">用户名</label>
+					<input type="text" class="form-control" id="username" placeholder="请输入用户名">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="start-time">开始时间</label>
+					<input type="datetime-local" class="form-control" id="start-time">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="end-time">结束时间</label>
+					<input type="datetime-local" class="form-control" id="end-time">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">搜索</button>
+		</form>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>用户名</th>
+					<th>时间</th>
+					<th>IP地址</th>
+					<th>SQL代码</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<nav aria-label="Page navigation">
+			<ul class="pagination justify-content-center">
+			</ul>
+		</nav>
+		<div class="card-group">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">SELECT</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">100</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">INSERT</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">50</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">DELETE</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">20</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">UPDATE</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">80</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
+	<script>
+		var drag = false;
+		var dragX = 0;
+		var dragY = 0;
+		var $sqlCode = $('.sql-code');
+		var $copyCode = $('.copy-code');
+		var $showSqlCode = $('.show-sql-code');
+		var $table = $('.table');
+		var $tbody = $table.find('tbody');
+		var $pagination = $('.pagination');
+		var $username = $('#username');
+		var $startTime = $('#start-time');
+		var $endTime = $('#end-time');
+		var pageNo = 1;
+		var pageSize = 10;
+		
+		// 展开/收起SQL代码
+		$showSqlCode.on('click',function() { var $sqlCode = $(this).siblings('.sql-code'); $sqlCode.slideToggle(); $(this).text(function(i, text) { return text === '展开' ? '收起' : '展开'; }); });
+        	// 复制SQL代码
+	$copyCode.on('click', function() {
+		var $sqlCode = $(this).siblings('.sql-code');
+		var sqlCode = $sqlCode.text();
+		var $temp = $('<textarea>');
+		$('body').append($temp);
+		$temp.val(sqlCode).select();
+		document.execCommand('copy');
+		$temp.remove();
+		alert('已复制到剪贴板');
+	});
+	
+	// 显示/隐藏复制按钮
+	$sqlCode.on('mouseenter', function() {
+		$(this).siblings('.copy-code').show();
+	}).on('mouseleave', function() {
+		$(this).siblings('.copy-code').hide();
+	});
+	
+	// 高亮SQL代码
+	hljs.initHighlightingOnLoad();
+	
+	// 拖动表格
+	$table.on('mousedown', function(e) {
+		drag = true;
+		dragX = e.pageX;
+		dragY = e.pageY;
+		$(this).css('cursor', 'grabbing');
+	}).on('mouseup', function() {
+		drag = false;
+		$(this).css('cursor', 'default');
+	}).on('mousemove', function(e) {
+		if (drag) {
+			var x = e.pageX - dragX;
+			var y = e.pageY - dragY;
+			var left = parseInt($(this).css('margin-left')) || 0;
+			var top = parseInt($(this).css('margin-top')) || 0;
+			$(this).css({
+				'margin-left': left + x + 'px',
+				'margin-top': top + y + 'px'
+			});
+			dragX = e.pageX;
+			dragY = e.pageY;
+		}
+	});
+	
+	// 分页请求
+	function getPageData(pageNo, pageSize) {
+		var params = {
+			page_no: pageNo,
+			page_size: pageSize
+		};
+		if ($username.val()) {
+			params.user_name = $username.val();
+		}
+		if ($startTime.val()) {
+			params.begin_timestamp = new Date($startTime.val()).getTime();
+		}
+		if ($endTime.val()) {
+			params.end_timestamp = new Date($endTime.val()).getTime();
+		}
+		$.ajax({ //这里
+			url: 'http://47.93.15.116:3001/get_page_data',
+			type: 'GET',
+			data: params,
+			success: function(res) {
+				$tbody.empty();
+				$.each(res.data, function(i, item) {
+					var $tr = $('<tr>');
+					$tr.append($('<td>').text(item.user_name));
+					$tr.append($('<td>').text(new Date(item.timestamp).toLocaleString()));
+					$tr.append($('<td>').text(item.ip_address));
+					var $tdSql = $('<td>');
+					var $showSqlCode = $('<span>').addClass('show-sql-code').text('展开');
+					var $copyCode = $('<i>').addClass('fas fa-copy copy-code');
+					var $sqlCode = $('<pre>').addClass('sql-code').text(item.sql_str);
+					$tdSql.append($showSqlCode).append($copyCode).append($sqlCode);
+					$tr.append($tdSql);
+					$tbody.append($tr);
+				});
+				$pagination.empty();
+				var totalPages = Math.ceil(res.total / pageSize);
+				for (var i = 1; i <= totalPages; i++) {
+					var $li = $('<li>').addClass('page-item').attr('data-page', i);
+					var $a = $('<a>').addClass('page-link').text(i);
+					if (i === pageNo) {
+						$li.addClass('active');
+					}
+					$li.append($a);
+					$pagination.append($li);
+				}
+			},
+			error: function(err) {
+				console.log(err);
+			}
+		});
+	}
+	
+	// 初始化页面数据
+	getPageData(pageNo, pageSize);
+	
+	// 分页点击事件
+	$pagination.on('click', '.page-link', function() {
+		pageNo = parseInt($(this).text());
+		getPageData(pageNo, pageSize);
+	});
+	
+	// 搜索表单提交事件
+	$('form').on('submit', function(e) {
+		e.preventDefault();
+		pageNo = 1;
+		getPageData(pageNo, pageSize);
+	});
+</script>
+<footer>Designed by 张耀辉</footer>
+</body> </html>
