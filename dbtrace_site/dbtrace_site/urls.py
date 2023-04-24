@@ -15,16 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.contrib.auth import views as auth_views
 import dbtrace_site.views as views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('index/', views.index),
-    path('show_recent_records/', views.show_recent_records),
+    path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('index/', views.index, name='index'),
+    path("admin/", admin.site.urls),
 
-    path('show_user_records/', views.show_user_records),
-    path('show_timerange_records/', views.show_timerange_records),
-
-    # path('db_trace', include('db_trace.urls')),
 
 ]

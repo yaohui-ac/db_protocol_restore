@@ -1,4 +1,4 @@
-from inits import mysql_restore_info
+from .inits import mysql_restore_info
 
 # collection_name mongodb
 
