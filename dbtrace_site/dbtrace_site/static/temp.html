@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+ <head> 
+  <meta charset="UTF-8" /> 
+  <title>MySQL网络报文还原系统 - 作者: 张耀辉</title> 
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" /> 
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.4.1/styles/default.min.css" /> 
+  <link rel="icon" href="R-C.jpg" /> 
+  <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script> 
+  <style>
+		.container {
+			margin-top: 50px;
+		}
+		.form-group {
+			margin-bottom: 20px;
+		}
+		.table td {
+			vertical-align: middle;
+			position: relative;
+			cursor: pointer;
+		}
+		.sql-code {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-top: 10px;
+			padding: 10px;
+			background-color: #f5f5f5;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			font-size: 14px;
+			white-space: pre-wrap;
+			z-index: 10;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			max-height: 300px;
+			overflow-y: auto;
+		}
+		.show-sql-code {
+			color: blue;
+			text-decoration: underline;
+		}
+		.show-sql-code:hover {
+			color: #0056b3;
+			text-decoration: underline;
+		}
+		.copy-code {
+			position: absolute;
+			top: -5px;
+			right: -5px;
+			background-color: #fff;
+			border-radius: 50%;
+			padding: 3px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			z-index: 11;
+			cursor: pointer;
+			display: none;
+			color: #666;
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.copy-code:hover {
+			color: #333;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		footer {
+			margin-top: 50px;
+			text-align: center;
+			color: #666;
+		}
+		.card-group {
+			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 20px;
+		}
+		.card {
+			flex: 1;
+			margin-right: 10px;
+			margin-bottom: 0;
+		}
+		.pagination {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.page-link {
+			cursor: pointer;
+		}
+		.page-item.disabled .page-link {
+			color: #999;
+			pointer-events: none;
+		}
+		.page-item.active .page-link {
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+		.page-link:focus, .page-link:hover {
+			color: #007bff;
+			text-decoration: none;
+			background-color: #f8f9fa;
+			border-color: #dee2e6;
+		}
+		.page-link:not(:disabled):not(.disabled) {
+			cursor: pointer;
+		}
+		.page-item:first-child .page-link {
+			margin-left: 0;
+			border-top-left-radius: 0.25rem;
+			border-bottom-left-radius: 0.25rem;
+		}
+		.page-item:last-child .page-link {
+			margin-right: 0;
+			border-top-right-radius: 0.25rem;
+			border-bottom-right-radius: 0.25rem;
+		}
+		.page-link {
+			position: relative;
+			display: block;
+			padding: 0.5rem 0.75rem;
+			margin-left: -1px;
+			line-height: 1.25;
+			color: #007bff;
+			background-color: #fff;
+			border: 1px solid #dee2e6;
+		}
+		.page-link:hover {
+			z-index: 2;
+			color: #0056b3;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+		}
+		.page-item.active .page-link {
+			z-index: 3;
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+		.page-item.disabled .page-link {
+			color: #999;
+			pointer-events: none;
+			background-color: #fff;
+			border-color: #dee2e6;
+		}
+		.page-link:focus, .page-link:hover {
+			color: #007bff;
+			text-decoration: none;
+			background-color: #f8f9fa;
+			border-color: #dee2e6;
+		}
+		.page-link:not(:disabled):not(.disabled) {
+			cursor: pointer;
+		}
+		.page-item:first-child .page-link {
+			margin-left: 0;
+			border-top-left-radius: 0.25rem;
+			border-bottom-left-radius: 0.25rem;
+		}
+		.page-item:last-child .page-link {
+			margin-right: 0;
+			border-top-right-radius: 0.25rem;
+			border-bottom-right-radius: 0.25rem;
+		}
+		.page-link {
+			position: relative;
+			display: block;
+			padding: 0.5rem 0.75rem;
+			margin-left: -1px;
+			line-height: 1.25;
+			color: #007bff;
+			background-color: #fff;
+			border: 1px solid #dee2e6;
+		}
+		.page-link:hover {
+			z-index: 2;
+			color: #0056b3;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+		}
+		.page-item.active .page-link {
+			z-index: 3;
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+		.page-item.disabled .page-link {
+			color: #999;
+			pointer-events: none;
+			background-color: #fff;
+			border-color: #dee2e6;
+		}
+		.page-link:focus, .page-link:hover {
+			color: #007bff;
+			text-decoration: none;
+			background-color: #f8f9fa;
+			border-color: #dee2e6;
+		}
+		.page-link:not(:disabled):not(.disabled) {
+			cursor: pointer;
+		}
+		.page-item:first-child .page-link {
+			margin-left: 0;
+			border-top-left-radius: 0.25rem;
+			border-bottom-left-radius: 0.25rem;
+		}
+		.page-item:last-child .page-link {
+			margin-right: 0;
+			border-top-right-radius: 0.25rem;
+			border-bottom-right-radius:0.25rem; } </style> 
+ </head> 
+ <body> 
+  <div class="container"> 
+   <h1>MySQL网络报文还原系统 - 作者: 张耀辉</h1> 
+   <div class="card-group"> 
+    <div class="card"> 
+     <div class="card-body"> 
+      <form id="search-form"> 
+       <div class="form-group row"> 
+        <label for="user-name" class="col-sm-2 col-form-label">用户名称</label> 
+        <div class="col-sm-10"> 
+         <input type="text" class="form-control" id="user-name" name="user_name" /> 
+        </div> 
+       </div> 
+       <div class="form-group row"> 
+        <label for="begin-timestamp" class="col-sm-2 col-form-label">开始时间</label> 
+        <div class="col-sm-10"> 
+         <input type="datetime-local" class="form-control" id="begin-timestamp" name="begin_timestamp" /> 
+        </div> 
+       </div> 
+       <div class="form-group row"> 
+        <label for="end-timestamp" class="col-sm-2 col-form-label">结束时间</label> 
+        <div class="col-sm-10"> 
+         <input type="datetime-local" class="form-control" id="end-timestamp" name="end_timestamp" /> 
+        </div> 
+       </div> 
+       <div class="form-group row"> 
+        <div class="col-sm-10 offset-sm-2"> 
+         <button type="submit" class="btn btn-primary">搜索</button> 
+        </div> 
+       </div> 
+      </form> 
+     </div> 
+    </div> 
+   </div> 
+   <table class="table table-bordered"> 
+    <thead> 
+     <tr> 
+      <th>序号</th> 
+      <th>用户名称</th> 
+      <th>时间</th> 
+      <th>报文类型</th> 
+      <th>报文内容</th> 
+     </tr> 
+    </thead> 
+    <tbody id="data-table"> 
+    </tbody> 
+   </table> 
+   <div class="pagination"> 
+    <nav aria-label="Page navigation"> 
+     <ul class="pagination"> 
+      <li class="page-item" id="prev-page"> <a class="page-link" href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span> <span class="sr-only">Previous</span> </a> </li> 
+      <li class="page-item" id="next-page"> <a class="page-link" href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span> <span class="sr-only">Next</span> </a> </li> 
+      <li class="page-item"> <select class="form-control" id="page-size"> <option value="10" selected="">10</option> <option value="20">20</option> <option value="50">50</option> <option value="100">100</option> </select> </li> 
+     </ul> 
+    </nav> 
+   </div> 
+  </div> 
+  <footer> 
+   <p>&copy; 2021 张耀辉</p> 
+  </footer> 
+  <script> $(function() { // 初始化页面 initPage(1, 10);		// 监听搜索表单提交事件
+		$('#search-form').submit(function(event) {
+			event.preventDefault();
+			initPage(1, 10);
+		});
+
+		// 监听上一页按钮点击事件
+		$('#prev-page').click(function(event) {
+			event.preventDefault();
+			var currentPage = parseInt($('#data-table').attr('data-page'));
+			if (currentPage > 1) {
+				initPage(currentPage - 1, $('#page-size').val());
+			}
+		});
+
+		// 监听下一页按钮点击事件
+		$('#next-page').click(function(event) {
+			event.preventDefault();
+			var currentPage = parseInt($('#data-table').attr('data-page'));
+			var totalPage = parseInt($('#data-table').attr('data-total-page'));
+			if (currentPage < totalPage) {
+				initPage(currentPage + 1, $('#page-size').val());
+			}
+		});
+
+		// 监听页面大小下拉框变化事件
+		$('#page-size').change(function() {
+			initPage(1, $(this).val());
+		});
+	});
+
+	// 初始化页面数据
+	function initPage(pageNo, pageSize) {
+		var userName = $('#user-name').val();
+		var beginTimestamp = $('#begin-timestamp').val();
+		var endTimestamp = $('#end-timestamp').val();
+		$.ajax({
+			url: '/get_page_data',
+			type: 'GET',
+			data: {
+				user_name: userName,
+				begin_timestamp: beginTimestamp,
+				end_timestamp: endTimestamp,
+				page_no: pageNo,
+				page_size: pageSize
+			},
+			success: function(data) {
+				// 渲染表格数据
+				renderTable(data.data);
+
+				// 渲染分页器
+				renderPagination(data.page_no, data.page_size, data.total_page);
+			},
+			error: function() {
+				alert('获取数据失败，请稍后重试！');
+			}
+		});
+	}
+
+	// 渲染表格数据
+	function renderTable(data) {
+		var html = '';
+		for (var i = 0; i < data.length; i++) {
+			html += '<tr>';
+			html += '<td>' + ((parseInt($('#data-table').attr('data-page')) - 1) * parseInt($('#page-size').val()) + i + 1) + '</td>';
+			html += '<td>' + data[i].user_name + '</td>';
+			html += '<td>' + data[i].timestamp + '</td>';
+			html += '<td>' + data[i].type + '</td>';
+			html += '<td>' + data[i].content + '</td>';
+			html += '</tr>';
+		}
+		$('#data-table').html(html);
+		$('#data-table').attr('data-page', data.page_no);
+		$('#data-table').attr('data-total-page', data.total_page);
+	}
+
+	// 渲染分页器
+	function renderPagination(pageNo, pageSize, totalPage) { 
+        var html = ''; 
+        html += '<li class="page-item ' + (pageNo == 1 ? 'disabled' : '') + '">'; 
+        html += '<a class="page-link" href="#" aria-label="Previous">'; 
+        html += '<span aria-hidden="true">«</span>'; 
+        html += '<span class="sr-only">Previous</span>'; 
+        html += '</a>'; html += '</li>'; 
+        for (var i = 1; i <= totalPage; i++) { 
+            if (i == pageNo) { 
+                html += '<li class="page-item active"><a class="page-link" href="#">' + i + '</a></li>'; 
+                } else { 
+                    html += '<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>'; 
+                    } 
+        } 
+        html += '<li class="page-item ' + (pageNo == totalPage ? 'disabled' : '') + '">'; 
+        html += '<a class="page-link" href="#" aria-label="Next">'; 
+        html += '<span aria-hidden="true">»</span>'; 
+        html += '<span class="sr-only">Next</span>'; 
+        html += '</a>'; html += '</li>'; 
+        $('.pagination').html(html); 
+        } 
+        </script>  
+ </body>
+</html>

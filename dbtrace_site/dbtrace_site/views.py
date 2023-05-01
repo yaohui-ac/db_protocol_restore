@@ -1,9 +1,10 @@
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from dbtrace_site.mysql_restore import models
 from django.views.decorators.csrf import csrf_exempt
+from dbtrace_site.mysql_restore.inits import mysql_restore_info
 
 @login_required
 @csrf_exempt
@@ -18,6 +19,36 @@ def index(request):
         # 如果用户是普通用户，则跳转到自定义的index.html界面
         print('normal')
         return render(request, 'index.html')
+
+# @login_required
+@csrf_exempt
+def get_page_data(request):
+    print("----====get_page_data===-----")
+    
+    page_no = int(request.GET.get("page_no"))
+    page_size = int(request.GET.get("page_size"))
+    user_name = request.GET.get('user_name')
+    begin_timestamp = request.GET.get('begin_timestamp')
+    end_timestamp = request.GET.get('end_timestamp')
+    print("params::", 
+    page_no, page_size, begin_timestamp, end_timestamp, user_name)
+    cols = models.find_cols_by_timerange_user( mysql_restore_info,
+        page_no, page_size, begin_timestamp, end_timestamp, user_name)
+    print(type(cols))
+    for i in cols:
+        print(i)
+
+    return JsonResponse(cols, safe=False)
+
+@csrf_exempt
+def get_query_count(request):
+    #之后需要支持参数筛选,需要设置数据库新表
+    query_count = {}
+    query_count["select_count"] = 20
+    query_count["update_count"] = 30
+    query_count["insert_count"] = 15
+    query_count["delete_count"] = 66
+    return JsonResponse(query_count)
 
 
 

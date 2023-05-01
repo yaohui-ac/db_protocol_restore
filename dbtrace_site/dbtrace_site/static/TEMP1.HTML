@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MySQL网络报文还原系统 - 作者: 张耀辉</title>
+	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.4.1/styles/default.min.css">
+	<link rel="icon" href="R-C.jpg">
+	<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.4.1/highlight.min.js"></script>
+	<style>
+		.container {
+			margin-top: 50px;
+		}
+		.form-group {
+			margin-bottom: 20px;
+		}
+		.table td {
+			vertical-align: middle;
+			position: relative;
+			cursor: pointer;
+		}
+		.sql-code {
+			display: none;
+			position: absolute;
+			top: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			margin-top: 10px;
+			padding: 10px;
+			background-color: #f5f5f5;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			font-size: 14px;
+			white-space: pre-wrap;
+			z-index: 10;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			max-height: 300px;
+			overflow-y: auto;
+		}
+		.show-sql-code {
+			color: blue;
+			text-decoration: underline;
+		}
+		.show-sql-code:hover {
+			color: #0056b3;
+			text-decoration: underline;
+		}
+		.copy-code {
+			position: absolute;
+			top: -5px;
+			right: -5px;
+			background-color: #fff;
+			border-radius: 50%;
+			padding: 3px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+			z-index: 11;
+			cursor: pointer;
+			display: none;
+			color: #666;
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.copy-code:hover {
+			color: #333;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+		}
+		h1 {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		footer {
+			margin-top: 50px;
+			text-align: center;
+			color: #666;
+		}
+		.card-group {
+			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 20px;
+		}
+		.card {
+			flex: 1;
+			margin-right: 10px;
+			margin-bottom: 0;
+		}
+		.pagination {
+			margin-top: 20px;
+			margin-bottom: 20px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.page-link {
+			cursor: pointer;
+		}
+		.page-item.disabled .page-link {
+			color: #999;
+			pointer-events: none;
+		}
+		.page-item.active .page-link {
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+		.page-link:focus, .page-link:hover {
+			color: #007bff;
+			text-decoration: none;
+			background-color: #f8f9fa;
+			border-color: #dee2e6;
+		}
+		.page-link:not(:disabled):not(.disabled) {
+			cursor: pointer;
+		}
+		.page-item:first-child .page-link {
+			margin-left: 0;
+			border-top-left-radius: 0.25rem;
+			border-bottom-left-radius: 0.25rem;
+		}
+		.page-item:last-child .page-link {
+			margin-right: 0;
+			border-top-right-radius: 0.25rem;
+			border-bottom-right-radius: 0.25rem;
+		}
+		.page-link {
+			position: relative;
+			display: block;
+			padding: 0.5rem 0.75rem;
+			margin-left: -1px;
+			line-height: 1.25;
+			color: #007bff;
+			background-color: #fff;
+			border: 1px solid #dee2e6;
+		}
+		.page-link:hover {
+			z-index: 2;
+			color: #0056b3;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+		}
+		.page-item.active .page-link {
+			z-index: 3;
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+		.page-item.disabled .page-link {
+			color: #999;
+			pointer-events: none;
+			background-color: #fff;
+			border-color: #dee2e6;
+		}
+		.page-link:focus, .page-link:hover {
+			color: #007bff;
+			text-decoration: none;
+			background-color: #f8f9fa;
+			border-color: #dee2e6;
+		}
+		.page-link:not(:disabled):not(.disabled) {
+			cursor: pointer;
+		}
+		.page-item:first-child .page-link {
+			margin-left: 0;
+			border-top-left-radius: 0.25rem;
+			border-bottom-left-radius: 0.25rem;
+		}
+		.page-item:last-child .page-link {
+			margin-right: 0;
+			border-top-right-radius: 0.25rem;
+			border-bottom-right-radius: 0.25rem;
+		}
+		.page-link {
+			position: relative;
+			display: block;
+			padding: 0.5rem 0.75rem;
+			margin-left: -1px;
+			line-height: 1.25;
+			color: #007bff;
+			background-color: #fff;
+			border: 1px solid #dee2e6;
+		}
+		.page-link:hover {
+			z-index: 2;
+			color: #0056b3;
+			background-color: #e9ecef;
+			border-color: #dee2e6;
+		}
+		.page-item.active .page-link {
+			z-index: 3;
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+		.page-item.disabled .page-link {
+			color: #999;
+			pointer-events: none;
+			background-color: #fff;
+			border-color: #dee2e6;
+		}
+		.page-link:focus, .page-link:hover {
+			color: #007bff;
+			text-decoration: none;
+			background-color: #f8f9fa;
+			border-color: #dee2e6;
+		}
+		.page-link:not(:disabled):not(.disabled) {
+			cursor: pointer;
+		}
+		.page-item:first-child .page-link {
+			margin-left: 0;
+			border-top-left-radius: 0.25rem;
+			border-bottom-left-radius: 0.25rem;
+		}
+		.page-item:last-child .page-link {
+			margin-right: 0;
+			border-top-right-radius: 0.25rem;
+			border-bottom-right-radius:0.25rem; } 
+            </style> 
+</head>
+<body>
+	<div class="container">
+		<h1>MySQL网络报文还原系统</h1>
+		<form>
+			<div class="form-row">
+				<div class="form-group col-md-4">
+					<label for="username">用户名</label>
+					<input type="text" class="form-control" id="username" placeholder="请输入用户名">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="start-time">开始时间</label>
+					<input type="datetime-local" class="form-control" id="start-time">
+				</div>
+				<div class="form-group col-md-4">
+					<label for="end-time">结束时间</label>
+					<input type="datetime-local" class="form-control" id="end-time">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">搜索</button>
+		</form>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>用户名</th>
+					<th>时间</th>
+					<th>IP地址</th>
+					<th>SQL代码</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+        <div class="pagination">     <!--  分页器 -->
+            <nav aria-label="Page navigation"> 
+             <ul class="pagination"> 
+              <li class="page-item" id="prev-page"> 
+                <a class="page-link" href="#" aria-label="Previous"> 
+                    <span aria-hidden="true">&laquo;</span> 
+                    <span class="sr-only">Previous</span> 
+                </a> 
+            </li> 
+              <li class="page-item" id="next-page"> 
+                <a class="page-link" href="#" aria-label="Next"> 
+                    <span aria-hidden="true">&raquo;</span>
+                     <span class="sr-only">Next</span> 
+                 </a> 
+                </li> 
+              <li class="page-item"> 
+                <select class="form-control" id="page-size">
+                     <option value="10" selected="">10</option> 
+                     <option value="20">20</option> 
+                     <option value="50">50</option>
+                      <option value="100">100</option>
+                 </select> 
+             </li> 
+             </ul> 
+            </nav> 
+           </div> 
+		<div class="card-group">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">SELECT</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">100</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">INSERT</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">50</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">DELETE</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">20</p>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">UPDATE</h5>
+					<h6 class="card-subtitle mb-2 text-muted">执行次数</h6>
+					<p class="card-text">80</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
+	<script>
+		var drag = false;
+		var dragX = 0;
+		var dragY = 0;
+		var $sqlCode = $('.sql-code');
+		var $copyCode = $('.copy-code');
+		var $showSqlCode = $('.show-sql-code');
+		var $table = $('.table');
+		var $tbody = $table.find('tbody');
+		var $pagination = $('.pagination');
+		var $username = $('#username');
+		var $startTime = $('#start-time');
+		var $endTime = $('#end-time');
+		var pageNo = 1;
+		var pageSize = 10;
+		
+		// 展开/收起SQL代码
+		$showSqlCode.on('click',function() { var $sqlCode = $(this).siblings('.sql-code'); $sqlCode.slideToggle(); $(this).text(function(i, text) { return text === '展开' ? '收起' : '展开'; }); });
+        	// 复制SQL代码
+	$copyCode.on('click', function() {
+		var $sqlCode = $(this).siblings('.sql-code');
+		var sqlCode = $sqlCode.text();
+		var $temp = $('<textarea>');
+		$('body').append($temp);
+		$temp.val(sqlCode).select();
+		document.execCommand('copy');
+		$temp.remove();
+		alert('已复制到剪贴板');
+	});
+	
+	// 显示/隐藏复制按钮
+	$sqlCode.on('mouseenter', function() {
+		$(this).siblings('.copy-code').show();
+	}).on('mouseleave', function() {
+		$(this).siblings('.copy-code').hide();
+	});
+	
+	// 高亮SQL代码
+	hljs.initHighlightingOnLoad();
+	
+	// 拖动表格
+	$table.on('mousedown', function(e) {
+		drag = true;
+		dragX = e.pageX;
+		dragY = e.pageY;
+		$(this).css('cursor', 'grabbing');
+	}).on('mouseup', function() {
+		drag = false;
+		$(this).css('cursor', 'default');
+	}).on('mousemove', function(e) {
+		if (drag) {
+			var x = e.pageX - dragX;
+			var y = e.pageY - dragY;
+			var left = parseInt($(this).css('margin-left')) || 0;
+			var top = parseInt($(this).css('margin-top')) || 0;
+			$(this).css({
+				'margin-left': left + x + 'px',
+				'margin-top': top + y + 'px'
+			});
+			dragX = e.pageX;
+			dragY = e.pageY;
+		}
+	});
+	
+    $(function() { // 初始化页面 initPage(1, 10);		// 监听搜索表单提交事件
+		$('#search-form').submit(function(event) {
+			event.preventDefault();
+			initPage(1, 10);
+		});
+
+		// 监听上一页按钮点击事件
+		$('#prev-page').click(function(event) {
+			event.preventDefault();
+			var currentPage = parseInt($('#data-table').attr('data-page'));
+			if (currentPage > 1) {
+				initPage(currentPage - 1, $('#page-size').val());
+			}
+		});
+
+		// 监听下一页按钮点击事件
+		$('#next-page').click(function(event) {
+			event.preventDefault();
+			var currentPage = parseInt($('#data-table').attr('data-page'));
+			var totalPage = parseInt($('#data-table').attr('data-total-page'));
+			if (currentPage < totalPage) {
+				initPage(currentPage + 1, $('#page-size').val());
+			}
+		});
+
+		// 监听页面大小下拉框变化事件
+		$('#page-size').change(function() {
+			initPage(1, $(this).val());
+		});
+	});
+
+
+	// 初始化页面数据
+	function initPage(pageNo, pageSize) {
+		var userName = $('#user-name').val();
+		var beginTimestamp = $('#begin-timestamp').val();
+		var endTimestamp = $('#end-timestamp').val();
+		$.ajax({
+			url: '/get_page_data',
+			type: 'GET',
+			data: {
+				user_name: userName,
+				begin_timestamp: beginTimestamp,
+				end_timestamp: endTimestamp,
+				page_no: pageNo,
+				page_size: pageSize
+			},
+			success: function(data) {
+				// 渲染表格数据
+				renderTable(data.data);
+
+				// 渲染分页器
+				renderPagination(data.page_no, data.page_size, data.total_page);
+			},
+			error: function() {
+				alert('获取数据失败，请稍后重试！');
+			}
+		});
+	}
+
+	// 渲染表格数据
+	function renderTable(data) {
+		var html = '';
+		for (var i = 0; i < data.length; i++) {
+			html += '<tr>';
+			html += '<td>' + ((parseInt($('#data-table').attr('data-page')) - 1) * parseInt($('#page-size').val()) + i + 1) + '</td>';
+			html += '<td>' + data[i].user_name + '</td>';
+			html += '<td>' + data[i].timestamp + '</td>';
+			html += '<td>' + data[i].type + '</td>';
+			html += '<td>' + data[i].content + '</td>';
+			html += '</tr>';
+		}
+		$('#data-table').html(html);
+		$('#data-table').attr('data-page', data.page_no);
+		$('#data-table').attr('data-total-page', data.total_page);
+	}
+	// 渲染分页器
+	function renderPagination(pageNo, pageSize, totalPage) { 
+        var html = ''; 
+        html += '<li class="page-item ' + (pageNo == 1 ? 'disabled' : '') + '">'; 
+        html += '<a class="page-link" href="#" aria-label="Previous">'; 
+        html += '<span aria-hidden="true">«</span>'; 
+        html += '<span class="sr-only">Previous</span>'; 
+        html += '</a>'; html += '</li>'; 
+        for (var i = 1; i <= totalPage; i++) { 
+            if (i == pageNo) { 
+                html += '<li class="page-item active"><a class="page-link" href="#">' + i + '</a></li>'; 
+                } else { 
+                    html += '<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>'; 
+                } 
+        } 
+        html += '<li class="page-item ' + (pageNo == totalPage ? 'disabled' : '') + '">'; 
+        html += '<a class="page-link" href="#" aria-label="Next">'; 
+        html += '<span aria-hidden="true">»</span>'; 
+        html += '<span class="sr-only">Next</span>'; 
+        html += '</a>'; html += '</li>'; 
+        $('.pagination').html(html); 
+        } 
+        </script>  
+</script>
+<footer>Designed by 张耀辉</footer>
+</body> 
+</html>

@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from django.contrib.auth import views as auth_views
 import dbtrace_site.views as views
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('index/', views.index, name='index'),
+    path('get_page_data/', views.get_page_data),
+    path('get_query_count/', views.get_query_count),
     path("admin/", admin.site.urls),
-
-
+    
 ]
+urlpatterns += staticfiles_urlpatterns() # todo 待完成
