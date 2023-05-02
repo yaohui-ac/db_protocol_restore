@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from dbtrace_site.mysql_restore import models
 from django.views.decorators.csrf import csrf_exempt
 from dbtrace_site.mysql_restore.inits import mysql_restore_info
-
+import json
 @login_required
 @csrf_exempt
 def index(request):
@@ -34,10 +34,10 @@ def get_page_data(request):
     page_no, page_size, begin_timestamp, end_timestamp, user_name)
     cols = models.find_cols_by_timerange_user( mysql_restore_info,
         page_no, page_size, begin_timestamp, end_timestamp, user_name)
-    print(type(cols))
     for i in cols:
         print(i)
 
+    return HttpResponse(json.dumps(cols))    
     return JsonResponse(cols, safe=False)
 
 @csrf_exempt
