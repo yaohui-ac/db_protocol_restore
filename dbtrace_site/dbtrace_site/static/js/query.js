@@ -1,5 +1,5 @@
 function addScript(){
-	document.write("<script language=javascript src="naric.js"></script>");
+	document.write("<script language=javascript src=\"naric.js\"></script>");
 }
 function get_page_data(_page_no, _page_size, _begin_timestamp, _end_timestamp, _user_name) {
 
