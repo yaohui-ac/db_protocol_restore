@@ -6,9 +6,11 @@ from dbtrace_site.mysql_restore import models
 from django.views.decorators.csrf import csrf_exempt
 from dbtrace_site.mysql_restore.inits import mysql_restore_info
 import json
+from dbtrace_site.settings import BASE_DIR
 @login_required
 @csrf_exempt
 def index(request):
+    print(BASE_DIR)
     if request.user.is_superuser:
         # 如果用户是超级用户，则跳转到系统自带的管理界面
         print('super')
@@ -34,20 +36,21 @@ def get_page_data(request):
     page_no, page_size, begin_timestamp, end_timestamp, user_name)
     cols = models.find_cols_by_timerange_user( mysql_restore_info,
         page_no, page_size, begin_timestamp, end_timestamp, user_name)
-    for i in cols:
-        print(i)
-
-    return HttpResponse(json.dumps(cols))    
+    # for i in cols:
+    #     print(i)
+    resp = HttpResponse(json.dumps(cols))
+    resp["Access-Control-Allow-Origin"] = "*"
+    return resp   
     return JsonResponse(cols, safe=False)
 
 @csrf_exempt
 def get_query_count(request):
     #之后需要支持参数筛选,需要设置数据库新表
     query_count = {}
-    query_count["select_count"] = 20
-    query_count["update_count"] = 30
-    query_count["insert_count"] = 15
-    query_count["delete_count"] = 66
+    query_count["select_count"] = 114
+    query_count["update_count"] = 514
+    query_count["insert_count"] = 1919
+    query_count["delete_count"] = 810
     return JsonResponse(query_count)
 
 

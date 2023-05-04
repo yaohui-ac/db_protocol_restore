@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/index/'
+LOGIN_REDIRECT_URL = '/static/'
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,7 +59,9 @@ ROOT_URLCONF = 'dbtrace_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'dbtrace_site/static')], #html/css/图片所在位置
+        'DIRS': [
+            os.path.join(BASE_DIR, 'dbtrace_site/template/')
+            ], #html所在位置
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -120,8 +122,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'dbtrace_site/static')
+STATIC_URL = 'dbstrace_site/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'dbtrace_site/static')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'dbtrace_site/static'), )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

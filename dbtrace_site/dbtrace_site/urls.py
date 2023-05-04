@@ -23,7 +23,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('index/', views.index, name='index'),
     path('get_page_data/', views.get_page_data),
-    path('get_query_count/', views.get_query_count),
+    path('get_query_card_count/', views.get_query_count),
     path("admin/", admin.site.urls),
     
 ]
