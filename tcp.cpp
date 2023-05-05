@@ -47,7 +47,7 @@ void handle_mysql_request(struct tcp_stream *tcp, void **arg)
 }
 
 int main(int argc, char **argv) { 
-//if (argc != 2) { std::cerr << "Usage: " << argv[0] << " <interface>" << std::endl; exit(EXIT_FAILURE); }
+if (argc != 2) { std::cerr << "Usage: " << argv[0] << " <interface>" << std::endl; exit(EXIT_FAILURE); }
 
 // Connect to MySQL database
 mysql_conn = mysql_init(NULL);
@@ -82,7 +82,7 @@ if (!nids_init())
 
 
 // Set BPF filter to capture only MySQL protocol traffic
-char str[] = "tcp port 443";
+char str[] = "tcp port 3306";
 nids_params.pcap_filter = str;
 
     std::cout<<"***2.2***"<<std::endl;
