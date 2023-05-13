@@ -1,0 +1,99 @@
+{
+	"comment": "",
+	"ignore": "",
+	"package": [
+		{
+			"path": "--global",
+			"revision": ""
+		},
+		{
+			"path": "--unset",
+			"revision": ""
+		},
+		{
+			"path": "config",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "Shc1xx+Cy/yc5oLaJr81jV3P+bc=",
+			"path": "github.com/go-pg/pg",
+			"revision": "56398e2050e4afe2c4c65ea7d9bd399f7db25deb",
+			"revisionTime": "2023-01-05T16:07:52Z",
+			"version": "v10",
+			"versionExact": "v10.11.0"
+		},
+		{
+			"path": "github.com/go-pg/pg/v10",
+			"revision": "56398e2050e4afe2c4c65ea7d9bd399f7db25deb",
+			"version": "v10",
+			"versionExact": "v10.11.0"
+		},
+		{
+			"path": "github.com/go-pg/pg/v10/internal",
+			"revision": "56398e2050e4afe2c4c65ea7d9bd399f7db25deb",
+			"version": "v10",
+			"versionExact": "v10.11.0"
+		},
+		{
+			"path": "github.com/go-pg/pg/v10/internal/pool",
+			"revision": "56398e2050e4afe2c4c65ea7d9bd399f7db25deb",
+			"version": "v10"
+		},
+		{
+			"path": "github.com/go-pg/pg/v10/orm",
+			"revision": "56398e2050e4afe2c4c65ea7d9bd399f7db25deb",
+			"version": "v10"
+		},
+		{
+			"path": "github.com/go-pg/pg/v10/pgjson",
+			"revision": "56398e2050e4afe2c4c65ea7d9bd399f7db25deb",
+			"version": "v10"
+		},
+		{
+			"path": "github.com/go-pg/pg/v10/types",
+			"revision": "56398e2050e4afe2c4c65ea7d9bd399f7db25deb",
+			"version": "v10"
+		},
+		{
+			"checksumSHA1": "yUc84k7cfnRi9AlPFuRo77Y18Og=",
+			"path": "github.com/golang/glog",
+			"revision": "23def4e6c14b4da8ac2ed8007337bc5eb5007998",
+			"revisionTime": "2016-01-25T20:49:56Z"
+		},
+		{
+			"checksumSHA1": "X5ivYXvxs8wLkNqaPMBcuzNKEv4=",
+			"path": "github.com/google/gopacket",
+			"revision": "3eaba08943250fd212520e5cff00ed808b8fc60a",
+			"revisionTime": "2021-04-29T15:22:48Z"
+		},
+		{
+			"path": "github.com/onsi/ginkgo",
+			"revision": ""
+		},
+		{
+			"path": "github.com/onsi/gomega",
+			"revision": ""
+		},
+		{
+			"path": "github.com/stretchr/testify/assert",
+			"revision": ""
+		},
+		{
+			"path": "github.com/stretchr/testify/require",
+			"revision": ""
+		},
+		{
+			"path": "gopkg.in/check.v1",
+			"revision": ""
+		},
+		{
+			"path": "http.https://github.com.proxy",
+			"revision": ""
+		},
+		{
+			"path": "mellium.im/sasl",
+			"revision": ""
+		}
+	],
+	"rootPath": "sniffer-agent"
+}

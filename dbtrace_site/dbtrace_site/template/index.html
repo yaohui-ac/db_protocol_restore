@@ -7,10 +7,12 @@
 	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
 	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<link rel="stylesheet" href="https://code.aliyun.com/highlightjs/cdn-release/highlightjs/10.1.1/styles/default.min.css">
-	<script src="https://code.aliyun.com/highlightjs/cdn-release/highlightjs/10.1.1/highlight.min.js"></script>
-	<script src="https://code.aliyun.com/highlightjs/cdn-release/highlightjs/10.1.1/languages/sql.min.js"></script>
-	
+	<script src="{% static 'highlight/styles/default.min.css' %}" ></script>
+	<script src="{% static 'highlight/highlight.min.js' %}" ></script>
+	<script src="{% static 'highlight/languages/sql.min.js' %}" ></script>
+
+
+
 	<link rel="icon" href="{% static 'jpg/R-C.jpg' %}">
 	<script type="text/javascript" src="{% static 'js/naric.js' %}" defer="defer"></script>
     <script type="text/javascript" src="{% static 'js/query.js' %}" defer="defer"></script>
@@ -217,6 +219,7 @@
 	<script>
 		document.addEventListener('DOMContentLoaded', (event) => {
 			document.querySelectorAll('pre code.sql').forEach((el) => {
+			console.log("FXXK")	
 			hljs.highlightElement(el);
 			});
 		});
