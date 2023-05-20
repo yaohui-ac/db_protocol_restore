@@ -11,7 +11,8 @@ sniffer_dir=$base_dir"/src/"$sniffer_name
 # mongod --dbpath /var/lib/mongo --logpath /var/log/mongodb/mongod.log --fork
 
 #启动postgresql
-systemctl restart postgresql
+systemctl stop postgresql
+systemctl start postgresql
 
 if [ $? -ne 0 ]; then
     echo "database start failed!"
@@ -21,7 +22,7 @@ fi
 
 # 启动后端服务器
 cd $backend_dir
-flask --app main run & #后台运行
+flask --app main run & # 后台运行
 
 if [ $? -ne 0 ]; then
     echo "flask start failed!"
@@ -31,7 +32,7 @@ fi
 
 #启动抓包
 cd $sniffer_dir
-go env -w GO111MODULE=on && go build && ./sniffer &
+go env -w GO111MODULE=on && go build && ./sniffer & # 后台运行
 
 if [ $? -ne 0 ]; then
     echo "sniffer start failed!"
