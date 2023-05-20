@@ -1,0 +1,95 @@
+<!-- form 横向排列 -->
+<form class="row" method="{{form.method or 'get'}}" action="{{ form.action or '' }}">
+    {% for field in form.fields %}
+    {% if field.type == 'textarea' %}
+    <!-- textarea -->
+    <div class="form-group col row">
+        <label for="{{id}}_{{field.name}}" class="col-3 col-form-label text-right">{{field.label}}</label>
+        <textarea
+            rows="{{field.rows or 3}}"
+            class="col-9 form-control"
+            id="{{id}}_{{field.name}}"
+            name="{{field.name}}"
+            placeholder="{{field.placeholder}}"
+            value="{{ field.value or '' }}"
+            {% if field.disabled %} disabled {% endif %}
+            {% if field.required %} required {% endif %}
+            ></textarea>
+    </div>
+    {% elif field.type == 'select' %}
+    <!-- select -->
+    <div class="form-group col row">
+        <label for="{{id}}_{{field.name}}" class="col-3 col-form-label text-right">{{field.label}}</label>
+        <select
+            class="col-9 form-control"
+            id="{{id}}_{{field.name}}"
+            name="{{field.name}}"
+            {% if field.disabled %} disabled {% endif %}
+            {% if field.required %} required {% endif %}
+            >
+            {% for option in field.options %}
+            <option value="{{option.value}}" {% if option.value ==field.value %} selected {% endif %}>{{option.label}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    {% elif field.type == 'datetime' %}
+    <!-- datetime -->
+    <div class="form-group col row">
+        <label for="{{id}}_{{field.name}}" class="col-3 col-form-label text-right">{{field.label}}</label>
+        <input
+            type="datetime-local"
+            class="col-9 form-control"
+            id="{{id}}_{{field.name}}"
+            name="{{field.name}}"
+            placeholder="{{field.placeholder}}"
+            value="{{ field.value or '' }}"
+            {% if field.disabled %} disabled {% endif %}
+            {% if field.required %} required {% endif %}
+            >
+    </div>
+    {% elif field.type == 'date' %}
+    <!-- date -->
+    <div class="form-group col row">
+        <label for="{{id}}_{{field.name}}" class="col-3 col-form-label text-right">{{field.label}}</label>
+        <input
+            type="date"
+            class="col-9 form-control"
+            id="{{id}}_{{field.name}}"
+            name="{{field.name}}"
+            placeholder="{{field.placeholder}}"
+            value="{{ field.value or '' }}"
+            {% if field.disabled %} disabled {% endif %}
+            {% if field.required %} required {% endif %}
+            >
+    </div>
+    {% else %}
+    <!-- other -->
+    <div class="form-group col row">
+        <label for="{{id}}_{{field.name}}" class="col-3 col-form-label text-right">{{field.label}}</label>
+        <input
+            type="{{field.type}}"
+            class="col-9 form-control"
+            id="{{id}}_{{field.name}}"
+            name="{{field.name}}"
+            placeholder="{{field.placeholder}}"
+            value="{{ field.value or '' }}"
+            {% if field.disabled %} disabled {% endif %}
+            {% if field.required %} required {% endif %}
+            >
+    </div>
+    {% endif %}
+    {% endfor %}
+    <!-- actions -->
+    <div class="form-group col">
+        <!-- 遍历operations -->
+        {% with operations = form.operations %}
+        {% for operation in operations %}
+        {% if operation.type == 'submit' %}
+        <button type="submit" class="{{operation.class}}">{{operation.label}}</button>
+        {% elif operation.type == 'a' %}
+        <a type="button" class="{{operation.class}}" href="{{operation.href}}">{{operation.label}}</a>
+        {% endif %}
+        {% endfor %}
+        {% endwith %}
+    </div>
+</form>

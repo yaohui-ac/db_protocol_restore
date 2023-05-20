@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover">
+            <thead>
+                <tr class="text-center">
+                    <!--遍历所有的表头-->
+                    {% for key in table["columns_map"].keys() %}
+                    <th scope="col text-center">{{ table["columns_map"][key] }}</th>
+                    {% endfor %}
+                    <!--操作-->
+                    {% if table["operations"] %}
+                    <th scope="col text-center">操作</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in table.pagination.items %}
+                <tr class="text-center">
+                    <!--遍历所有的字段,从item中取出对应字段的值-->
+                    {% for key in table["columns_map"].keys() %}
+                    <td>{{ item[key] }}</td>
+                    {% endfor %}
+                    <td>
+                        {% if table["operations"] %}
+                        <!-- 遍历所有的操作 -->
+                        {% for operation in table["operations"] %}
+                        <!-- {{operation['name']}} -->
+                        <a class="{{operation['class']}}" href="{{ url_for(operation['view_name'], id=item.id, username=item.user_name, source_ip=item.source_ip,table_name_str=item.table_name_str,database_name_str=item.database_name_str) }}" type="button">{{operation['label']}}</a>
+                        {% endfor %}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% with pagination = table.pagination %}
+    <div class="col-12 row">
+        <!--分页-->
+        <div class="col-3 text-center">
+            <!--上一页-->
+            {% if pagination.has_prev %}
+            <a class="btn btn-primary" href="{{ url_for(current_view_name, page=pagination.prev_num, search=search) }}" type="button">上一页</a>
+            {% else %}
+            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=pagination.prev_num, search=search) }}" type="button">上一页</a>
+            {% endif %}
+        </div>
+        <div class="col-6 text-center">
+            <!--页码-->
+            {% for page in pagination.iter_pages() %}
+            {% if page %}
+            {% if page == pagination.page %}
+            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=page, search=search) }}" type="button">{{ page }}</a>
+            {% else %}
+            <a class="btn btn-primary" href="{{ url_for(current_view_name, page=page, search=search) }}" type="button">{{ page }}</a>
+            {% endif %}
+            {% else %}
+            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=page, search=search) }}" type="button">...</a>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-3 text-center">
+            <!--下一页-->
+            {% if pagination.has_next %}
+            <a class="btn btn-primary" href="{{ url_for(current_view_name, page=pagination.next_num, search=search) }}" type="button">下一页</a>
+            {% else %}
+            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=pagination.next_num, search=search) }}" type="button">下一页</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endwith %}
+</div>

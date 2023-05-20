@@ -1,0 +1,26 @@
+<!-- 楼栋列表页面 -->
+
+<!-- 扩展自base.html -->
+{% extends 'base.html' %}
+
+<!-- 重写content块 -->
+{% block content %}
+
+<!-- 标题栏以及搜索表单 -->
+<div class="row">
+    <div class="col-12 text-center">
+        <h1>{{title}}</h1>
+    </div>
+    <div class="col-12">
+        <!-- 搜索表单,使用search_form生成 -->
+        {% with form = search_form %}
+            {% include 'v1/page/search_form.html' %}
+        {% endwith %}
+    </div>
+</div>
+
+<!-- 楼栋列表 -->
+{% include 'v1/base/table/table.html' %}
+
+{% endblock %}
+<!-- 重写content块结束 -->

@@ -1,0 +1,91 @@
+<!-- register page -->
+<!DOCTYPE html >
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <style>
+        /* form表单在屏幕正中*/
+        .box-form {
+            width: 450px;
+            margin: 0 auto;
+            margin-top: 200px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-sizing: border-box;
+            /* 设置圆角 */
+            border-radius: 5px;
+            /* 设置阴影 */
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        /* input输入框 */
+        input,
+        select {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 15px;
+            box-sizing: border-box;
+            /* 设置圆角 */
+            border-radius: 5px;
+            /* 设置阴影 */
+            box-shadow: 0 0 10px #ccc;
+            /* 设置字体大小 */
+            font-size: 20px;
+
+        }
+
+        /* input输入框的placeholder */
+        input::placeholder {
+            color: #ccc;
+        }
+
+        select::placeholder {
+            color: #ccc;
+        }
+
+        /* input输入框的边框 */
+        input,
+        select {
+            border: 1px solid #ccc;
+        }
+
+        /* 错误提示 */
+        .alert {
+            color: red;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        footer {
+			margin-top: 50px;
+			text-align: center;
+			color: #666;
+		}
+    </style>
+</head>
+<body>
+    <div class="box-form">
+        <!-- 标题 -->
+        <h1 style="text-align: center">{{title}}<br/>注册</h1>
+        <!-- 注册表单 -->
+        <form method="post">
+            <!-- 错误提示 -->
+            {% if error %}
+            <div class="alert">{{ error }}</div>
+            {% endif %}
+
+            <input type="text" name="username" placeholder="用户名" required>
+            <input type="password" name="password" placeholder="密码" required>
+            <input type="password" name="repassword" placeholder="确认密码" required>
+
+            <input type="submit" value="注册">
+        </form>
+        <!-- the button of jumping to login page -->
+        <a href="{{ url_for('auth.login.login') }}">已有账号？请登录</a>
+    </div>
+    <br>
+    <footer>Designed by 张耀辉</footer>
+    <br>
+</body>    
+</html>

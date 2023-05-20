@@ -1,0 +1,94 @@
+<form id="{{id}}_form" action="{{url}}" method="{{ method or 'post' }}"
+    enctype="{{ enctype or 'multipart/form-data' }}">
+    <div class="form-group">
+        <h1>
+            {{ title }}
+        </h1>
+    </div>
+    {% if error %}
+    <div class="form-group">
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    </div>
+    {% endif %}
+
+    {% block body %}
+
+    {% for field in form.fields %}
+
+    {% if field.type == 'textarea' %}
+    <div class="form-group">
+        <label for="{{id}}_{{field.name}}">{{field.label}}</label>
+        <textarea rows="{{field.rows or 3}}" class="form-control" id="{{id}}_{{field.name}}" name="{{field.name}}"
+            placeholder="{{field.placeholder}}"
+            {% if field.disabled %} disabled {% endif %} {% if field.required %} required {% endif %} {% if field.readonly %} readonly {% endif %}>{{ field.value or '' }}</textarea>
+    </div>
+    {% elif field.type == 'select' %}
+    <div class="form-group">
+        <label for="{{id}}_{{field.name}}">{{field.label}}</label>
+        <select class="form-control" id="{{id}}_{{field.name}}" name="{{field.name}}"
+            {% if field.disabled %} disabled {% endif %} {% if field.required %} required {% endif %} {% if field.readonly %} readonly {% endif %}>
+            {% for option in field.options %}
+            <option value="{{option.value}}" {% if option.value ==field.value %} selected {% endif %}>{{option.label}}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    {% elif field.type == 'datetime' %}
+    <!-- datetime -->
+    <div class="form-group">
+        <label for="{{id}}_{{field.name}}">{{field.label}}</label>
+        <input type="datetime-local" class="form-control" id="{{id}}_{{field.name}}" name="{{field.name}}"
+            placeholder="{{field.placeholder}}" value="{{ field.value or '' }}" {% if field.disabled %} disabled {% endif
+            %} {% if field.required %} required {% endif %} {% if field.readonly %} readonly {% endif %}>
+    </div>
+    {% elif field.type == 'date' %}
+    <!-- date -->
+    <div class="form-group">
+        <label for="{{id}}_{{field.name}}">{{field.label}}</label>
+        <input type="date" class="form-control" id="{{id}}_{{field.name}}" name="{{field.name}}"
+            placeholder="{{field.placeholder}}" value="{{ field.value or '' }}" {% if field.disabled %} disabled {% endif
+            %} {% if field.required %} required {% endif %} {% if field.readonly %} readonly {% endif %}>
+    </div>
+    {% elif field.type == 'hidden' %}
+    <!-- hidden -->
+    <div class="form-group">
+        <input type="hidden" class="form-control" id="{{id}}_{{field.name}}" name="{{field.name}}"
+            placeholder="{{field.placeholder}}" value="{{ field.value or '' }}" {% if field.disabled %} disabled {% endif
+            %} {% if field.required %} required {% endif %} {% if field.readonly %} readonly {% endif %}>
+    </div>
+    {% else %}
+    <div class="form-group">
+        <label for="{{id}}_{{field.name}}">{{field.label}}</label>
+        <input type="{{field.type}}" class="form-control" id="{{id}}_{{field.name}}" name="{{field.name}}"
+            placeholder="{{field.placeholder}}" value="{{ field.value or '' }}" {% if field.disabled %} disabled {% endif
+            %} {% if field.required %} required {% endif %} {% if field.readonly %} readonly {% endif %}>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    {% endblock %}
+
+    {% block operations %}
+    <!-- 提交 -->
+    <div class="form-group text-center">
+        {% with operations = form.operations %}
+        {% for operation in operations %}
+        {% if operation.type == 'submit' %}
+        <button type="submit" class="{{operation.class}}">{{operation.label}}</button>
+        {% elif operation.type == 'a' %}
+        <a type="button" class="{{operation.class}}" href="{{operation.href}}">{{operation.label}}</a>
+        {% endif %}
+        {% endfor %}
+        {% endwith %}
+        <!-- 返回 -->
+        <a onclick="back()" class="btn btn-default">返回</a>
+    </div>
+    <script type="text/javascript">
+        function back() {
+            window.history.back();
+        }
+    </script>
+    {% endblock %}
+</form>

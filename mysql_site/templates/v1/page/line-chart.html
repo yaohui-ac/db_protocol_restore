@@ -1,0 +1,55 @@
+<!-- 楼栋列表页面 -->
+
+<!-- 扩展自base.html -->
+{% extends 'base.html' %}
+
+<!-- 重写content块 -->
+{% block content %}
+
+<!-- 标题栏以及搜索表单 -->
+<div class="row">
+    <div class="col-12 text-center">
+        <h1>{{title}}</h1>
+    </div>
+    <div class="col-12">
+        <!-- 搜索表单,使用search_form生成 -->
+        {% with form = search_form %}
+            {% include 'v1/page/search_form.html' %}
+        {% endwith %}
+    </div>
+</div>
+
+<div class="col-12" style="height: 500px" id="line_chart">
+
+</div>
+
+{% endblock %}
+<!-- 重写content块结束 -->
+<!-- 重写script -->
+{% block script %}
+<script
+  type="text/javascript"
+  src="/static/js/echarts.min.js"
+></script>
+<script src="/static/js/jquery-3.3.1.min.js"></script>
+<script>
+    $(function () {
+        var line_chart = echarts.init(
+            document.getElementById("line_chart"),
+            "white",
+            {
+                render: "canvas",
+            }
+        );
+        $.ajax({
+            type: "{{ chart.method }}",
+            url: "{{ chart.url|safe }}",
+            dataType: "json",
+            success: function (result) {
+                line_chart.setOption(result);
+            },
+        });
+    });
+
+</script>
+{% endblock %}

@@ -1,0 +1,88 @@
+<!-- 登录页面 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>登录</title>
+    <style>
+      /* form表单在屏幕正中*/
+      .box-form {
+        width: 450px;
+        margin: 0 auto;
+        margin-top: 200px;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-sizing: border-box;
+        /* 设置圆角 */
+        border-radius: 5px;
+        /* 设置阴影 */
+        box-shadow: 0 0 10px #ccc;
+      }
+
+      /* input输入框 */
+      input {
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 15px;
+        box-sizing: border-box;
+        /* 设置圆角 */
+        border-radius: 5px;
+        /* 设置阴影 */
+        box-shadow: 0 0 10px #ccc;
+        /* 设置字体大小 */
+        font-size: 20px;
+      }
+
+      /* input输入框的placeholder */
+      input::placeholder {
+        color: #ccc;
+      }
+
+      /* input输入框的边框 */
+      input {
+        border: 1px solid #ccc;
+      }
+
+      /* 错误提示 */
+      .alert {
+        color: red;
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      footer {
+			margin-top: 50px;
+			text-align: center;
+			color: #666;
+		}
+    </style>
+  </head>
+  <body>
+    <div class="box-form">
+      <!-- 标题 -->
+      <h1 style="text-align: center">{{title}}<br/>登录</h1>
+      <!-- 登录表单 -->
+      <form method="post">
+        <!-- 错误提示 -->
+        {% if error %}
+        <div class="alert">{{ error }}</div>
+        {% endif %}
+
+        <!-- 用户名 -->
+        <input type="text" name="username" placeholder="用户名" required />
+        <input
+          type="password"
+          name="password"
+          placeholder="密码"
+          required
+        />
+        <input type="submit" value="登录" />
+      </form>
+      <!-- the button of jumping to register page -->
+      <a href="{{ url_for('auth.register.register_page') }}">没有账号? 请注册</a>
+    </div>
+    <br>
+    <footer>Designed by 张耀辉</footer>
+    <br>
+  </body>
+</html>

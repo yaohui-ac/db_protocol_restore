@@ -1,0 +1,251 @@
+query_time,source_host,sql_text,target_host,user_name,database_name_str,table_name_str,exec_time,query_type_name
+2012-01-21 01:57:39,205.221.59.27:27093,'update db7.table8 set a=1 where b=2',205.221.59.27:15529,Cindy,db7,table8,35,update
+2012-01-21 01:57:39,63.102.93.112:59069,'truncate table db2.table9',180.174.46.85:15529,Eva,db2,table9,337,truncate
+2012-01-21 01:57:39,211.57.189.116:59069,'update db6.table3 set a=1 where b=2',38.14.25.41:8349,Gavin,db6,table3,388,update
+2018-10-28 16:01:30,130.150.8.124:10724,'use db1',20.208.172.183:8349,Ivan,None,None,773,system_command
+2013-10-23 22:09:38,211.57.189.116:27093,'insert into db9.table4 values (1, 2, 3)',184.146.214.43:21803,Helen,db9,table4,35,insert
+2012-01-21 01:57:39,38.14.25.41:64063,'use db4',38.14.25.41:10724,Eva,None,None,773,system_command
+2014-08-11 13:54:05,38.14.25.41:21803,'insert into db7.table5 values (1, 2, 3)',38.14.25.41:59853,Frank,db7,table5,220,insert
+2012-01-21 01:57:39,211.57.189.116:59853,'update db9.table8 set a=1 where b=2',130.150.8.124:59069,Bob,db9,table8,220,update
+2013-10-23 22:09:38,156.13.145.13:59686,'truncate table db7.table2',156.13.145.13:64063,Cindy,db7,table2,889,truncate
+2013-12-10 08:13:55,180.174.46.85:21803,'update db6.table8 set a=1 where b=2',20.208.172.183:10724,Helen,db6,table8,35,update
+2011-12-28 13:18:26,184.162.81.4:2941,'use db7',117.20.109.120:3768,Ivan,None,None,8,system_command
+2012-02-26 11:20:30,131.28.69.219:57667,'use db5',117.131.68.49:53343,David,None,None,380,system_command
+2011-12-28 13:18:26,117.20.109.120:53343,'select * from db8.table6',239.56.203.85:56391,Gavin,db8,table6,8,select
+2020-03-14 20:07:55,117.131.68.49:65036,'insert into db5.table4 values (1, 2, 3)',42.246.81.223:56391,Eva,db5,table4,854,insert
+2012-02-26 11:20:30,225.231.175.13:12056,'update db7.table1 set a=1 where b=2',117.20.109.120:2941,Jack,db7,table1,158,update
+2020-03-14 20:07:55,44.112.54.167:14518,'drop table db5.table2',184.162.81.4:5273,Frank,db5,table2,826,drop
+2014-08-22 13:52:35,117.131.68.49:12056,'drop table db3.table3',117.131.68.49:53343,Gavin,db3,table3,158,drop
+2012-02-26 11:20:30,117.131.68.49:14518,'use db1',225.231.175.13:56391,Gavin,None,None,158,system_command
+2019-08-10 05:16:48,42.246.81.223:53343,'drop table db1.table1',117.20.109.120:3768,Gavin,db1,table1,919,drop
+2012-08-06 21:35:08,42.246.81.223:2941,'insert into db4.table9 values (1, 2, 3)',117.131.68.49:5273,Cindy,db4,table9,895,insert
+2013-12-21 09:01:15,47.27.124.234:22073,'delete from db10.table8 where a=1',111.191.128.7:56943,Gavin,db10,table8,344,delete
+2020-11-22 22:37:03,112.160.218.225:19205,'select * from db10.table8',35.127.175.173:31619,Gavin,db10,table8,998,select
+2016-03-02 14:35:31,99.171.53.34:43815,'delete from db7.table6 where a=1',111.191.128.7:35041,Bob,db7,table6,998,delete
+2016-09-27 07:51:34,35.127.175.173:35041,'delete from db2.table10 where a=1',47.27.124.234:32898,Cindy,db2,table10,344,delete
+2018-03-26 09:26:13,64.24.186.40:56943,'insert into db3.table8 values (1, 2, 3)',132.35.47.160:1232,Ivan,db3,table8,688,insert
+2018-03-26 09:26:13,3.47.116.37:61374,'select * from db8.table7',141.134.136.2:22073,Jack,db8,table7,232,select
+2013-04-04 21:23:03,64.24.186.40:19205,'drop table db5.table6',190.9.214.238:56943,Cindy,db5,table6,232,drop
+2016-04-05 02:06:32,99.171.53.34:19019,'use db10',99.171.53.34:19205,Frank,None,None,36,system_command
+2016-09-27 07:51:34,132.35.47.160:35041,'use db3',3.47.116.37:56943,Ivan,None,None,238,system_command
+2010-12-19 03:44:09,111.191.128.7:19205,'select * from db9.table1',64.24.186.40:61374,Gavin,db9,table1,101,select
+2010-11-16 20:35:42,92.159.57.77:52139,'update db5.table7 set a=1 where b=2',207.183.142.53:23040,Eva,db5,table7,216,update
+2012-08-22 08:22:21,26.44.238.203:15494,'delete from db7.table10 where a=1',239.158.153.8:15494,Cindy,db7,table10,256,delete
+2015-07-09 00:35:23,63.250.175.93:61140,'update db8.table2 set a=1 where b=2',239.158.153.8:56348,Alex,db8,table2,15,update
+2013-02-07 03:18:35,254.93.75.137:48340,'insert into db6.table2 values (1, 2, 3)',146.209.115.236:48340,Helen,db6,table2,216,insert
+2015-06-05 14:31:15,146.209.115.236:15494,'drop table db2.table4',26.44.238.203:15494,Helen,db2,table4,64,drop
+2010-07-19 03:43:42,26.44.238.203:1433,'delete from db10.table3 where a=1',77.211.41.195:52139,David,db10,table3,620,delete
+2018-10-15 09:56:17,77.211.41.195:48340,'drop table db8.table1',63.250.175.93:17945,Frank,db8,table1,15,drop
+2017-08-10 15:52:51,211.170.213.11:1433,'update db4.table9 set a=1 where b=2',146.209.115.236:32553,Gavin,db4,table9,356,update
+2010-07-19 03:43:42,146.209.115.236:1433,'use db8',26.44.238.203:26230,Cindy,None,None,216,system_command
+2018-03-28 04:17:51,146.209.115.236:23040,'drop table db5.table9',191.139.93.144:48340,Ivan,db5,table9,620,drop
+2011-06-16 13:16:52,239.253.209.185:25350,'use db3',198.234.105.104:9136,Frank,None,None,693,system_command
+2010-09-05 03:07:15,89.135.254.109:11697,'insert into db2.table4 values (1, 2, 3)',246.160.23.148:58618,Ivan,db2,table4,470,insert
+2016-04-24 09:18:05,239.253.209.185:9136,'use db1',239.253.209.185:11697,Frank,None,None,325,system_command
+2013-06-09 07:55:54,246.160.23.148:19511,'insert into db2.table5 values (1, 2, 3)',159.189.70.214:19511,Ivan,db2,table5,678,insert
+2010-09-05 03:07:15,246.160.23.148:58618,'update db6.table10 set a=1 where b=2',172.38.22.15:25350,Gavin,db6,table10,780,update
+2018-08-09 05:09:20,198.234.105.104:9136,'use db2',239.253.209.185:19511,David,None,None,312,system_command
+2010-09-05 03:07:15,159.189.70.214:11697,'update db10.table4 set a=1 where b=2',198.234.105.104:20502,Cindy,db10,table4,128,update
+2013-06-09 07:55:54,221.105.235.149:9136,'use db9',232.165.164.10:11697,David,None,None,678,system_command
+2011-11-23 00:07:48,221.105.235.149:58618,'drop table db2.table5',221.105.235.149:40525,Bob,db2,table5,169,drop
+2010-12-03 14:49:28,159.189.70.214:58618,'insert into db3.table6 values (1, 2, 3)',246.160.23.148:4613,Eva,db3,table6,780,insert
+2017-05-01 17:21:47,125.120.171.221:41642,'select * from db7.table4',138.5.68.40:44519,Bob,db7,table4,633,select
+2017-10-03 13:32:36,1.227.210.127:41642,'truncate table db3.table2',236.81.100.116:46584,Ivan,db3,table2,11,truncate
+2020-09-22 19:43:42,236.81.100.116:26574,'truncate table db9.table8',142.217.135.235:18667,Gavin,db9,table8,175,truncate
+2020-09-22 19:43:42,142.217.135.235:33881,'select * from db5.table5',74.113.204.24:26574,Frank,db5,table5,175,select
+2017-05-01 17:21:47,1.227.210.127:18667,'use db6',245.237.128.60:18667,Eva,None,None,747,system_command
+2018-11-27 23:41:29,125.120.171.221:26574,'truncate table db6.table6',89.211.229.109:18667,Eva,db6,table6,175,truncate
+2013-03-28 11:42:02,138.5.68.40:7285,'use db6',125.120.171.221:41642,Cindy,None,None,990,system_command
+2013-01-19 07:44:30,217.220.203.37:33881,'select * from db2.table5',125.120.171.221:7285,Gavin,db2,table5,990,select
+2012-09-24 13:37:27,89.211.229.109:29454,'truncate table db2.table8',74.113.204.24:44519,Ivan,db2,table8,581,truncate
+2017-10-03 13:32:36,131.155.41.33:7285,'truncate table db7.table6',217.220.203.37:26574,Alex,db7,table6,990,truncate
+2018-07-26 07:46:12,55.117.35.255:26710,'delete from db1.table4 where a=1',2.224.229.197:2555,Frank,db1,table4,895,delete
+2016-09-14 12:15:22,100.166.25.210:12035,'delete from db9.table6 where a=1',23.6.189.78:38331,Ivan,db9,table6,570,delete
+2011-12-09 15:52:06,150.79.110.71:26710,'truncate table db10.table9',55.231.196.244:2555,Gavin,db10,table9,282,truncate
+2013-04-01 22:40:53,55.231.196.244:38331,'delete from db9.table3 where a=1',147.236.160.239:38331,Ivan,db9,table3,47,delete
+2016-09-14 12:15:22,61.165.114.39:12035,'drop table db7.table5',23.6.189.78:11056,Cindy,db7,table5,755,drop
+2018-07-26 07:46:12,23.6.189.78:38331,'delete from db6.table8 where a=1',100.166.25.210:62859,Frank,db6,table8,755,delete
+2011-12-09 15:52:06,147.236.160.239:14153,'drop table db1.table5',140.47.155.205:26710,Alex,db1,table5,755,drop
+2014-08-22 06:57:23,61.165.114.39:62859,'delete from db7.table5 where a=1',2.224.229.197:11874,Jack,db7,table5,154,delete
+2013-04-01 22:40:53,23.6.189.78:290,'delete from db2.table2 where a=1',55.117.35.255:12035,Frank,db2,table2,895,delete
+2018-07-26 07:46:12,2.224.229.197:290,'drop table db8.table6',100.166.25.210:11056,Jack,db8,table6,47,drop
+2011-03-23 11:11:37,4.93.66.179:22915,'truncate table db4.table10',34.107.225.244:1049,Bob,db4,table10,992,truncate
+2019-05-02 01:50:38,126.236.67.166:43880,'select * from db2.table10',4.93.66.179:22915,Alex,db2,table10,884,select
+2010-03-19 06:57:09,209.175.221.159:62873,'use db9',112.72.80.22:47201,Eva,None,None,781,system_command
+2011-04-09 15:02:33,102.204.20.118:1049,'update db2.table10 set a=1 where b=2',19.97.133.158:46713,Alex,db2,table10,65,update
+2017-04-18 23:59:38,102.204.20.118:12723,'delete from db2.table4 where a=1',34.107.225.244:29312,Ivan,db2,table4,769,delete
+2011-03-23 11:11:37,4.93.66.179:22915,'select * from db4.table3',82.166.136.189:12723,Bob,db4,table3,93,select
+2015-03-23 07:20:28,102.204.20.118:1049,'delete from db2.table1 where a=1',102.204.20.118:22915,David,db2,table1,977,delete
+2018-04-02 00:42:27,112.72.80.22:46713,'select * from db1.table6',82.166.136.189:46713,Jack,db1,table6,884,select
+2010-03-19 06:57:09,112.72.80.22:47201,'update db4.table9 set a=1 where b=2',156.110.251.166:43880,Eva,db4,table9,769,update
+2017-04-18 23:59:38,82.166.136.189:47201,'truncate table db6.table9',209.175.221.159:62873,Jack,db6,table9,781,truncate
+2018-08-20 11:03:30,49.187.246.96:11032,'use db7',169.50.199.150:57621,David,None,None,348,system_command
+2019-09-21 13:40:33,143.53.233.113:11032,'select * from db9.table3',72.37.16.135:12160,Helen,db9,table3,314,select
+2014-07-15 10:56:35,143.53.233.113:49364,'select * from db7.table9',221.100.98.88:43187,Gavin,db7,table9,43,select
+2016-07-14 07:46:55,73.165.114.59:57621,'select * from db7.table1',40.57.80.157:49364,Eva,db7,table1,276,select
+2015-03-01 05:06:45,143.53.233.113:43187,'select * from db7.table1',61.17.57.255:12160,David,db7,table1,555,select
+2011-01-17 20:27:41,49.187.246.96:43187,'select * from db7.table7',49.187.246.96:63821,Cindy,db7,table7,314,select
+2018-08-20 11:03:30,221.100.98.88:57621,'select * from db7.table2',73.165.114.59:49992,David,db7,table2,43,select
+2016-07-14 07:46:55,143.53.233.113:49992,'select * from db6.table6',49.187.246.96:57621,Frank,db6,table6,32,select
+2015-03-01 05:06:45,143.53.233.113:63821,'use db6',88.91.230.153:3569,Cindy,None,None,565,system_command
+2019-09-21 13:40:33,61.17.57.255:43187,'update db10.table1 set a=1 where b=2',40.57.80.157:49364,Alex,db10,table1,43,update
+2019-01-02 23:32:43,90.82.71.171:16286,'use db6',56.38.25.227:6381,David,None,None,654,system_command
+2010-03-22 21:07:39,208.26.139.83:18951,'insert into db4.table9 values (1, 2, 3)',236.231.51.240:6381,Frank,db4,table9,611,insert
+2013-06-02 01:22:13,56.38.25.227:16286,'truncate table db4.table3',119.102.81.107:28591,Frank,db4,table3,746,truncate
+2011-01-01 21:54:03,238.97.63.15:5501,'select * from db7.table9',14.24.126.150:5501,Helen,db7,table9,654,select
+2019-07-11 13:12:14,208.26.139.83:6381,'use db3',14.24.126.150:28591,Alex,None,None,965,system_command
+2013-07-13 22:37:50,236.231.51.240:18951,'insert into db6.table4 values (1, 2, 3)',158.202.240.184:17654,Gavin,db6,table4,654,insert
+2013-07-13 22:37:50,236.231.51.240:34997,'drop table db5.table7',90.82.71.171:64329,Gavin,db5,table7,359,drop
+2010-03-22 21:07:39,93.104.25.219:18951,'use db9',119.102.81.107:16286,Frank,None,None,131,system_command
+2010-03-22 21:07:39,130.112.222.49:6381,'use db7',119.102.81.107:823,Ivan,None,None,965,system_command
+2017-05-03 18:02:31,238.97.63.15:64329,'insert into db1.table5 values (1, 2, 3)',90.82.71.171:18951,Helen,db1,table5,654,insert
+2010-12-28 12:27:48,150.16.174.49:54488,'drop table db5.table8',180.110.72.245:37994,Eva,db5,table8,583,drop
+2020-05-27 10:26:08,63.166.193.187:42719,'drop table db2.table8',207.230.209.3:18560,Ivan,db2,table8,721,drop
+2017-05-24 03:33:05,207.230.209.3:37911,'drop table db7.table3',26.57.146.20:41334,Jack,db7,table3,890,drop
+2014-06-19 07:33:20,207.230.209.3:37911,'drop table db2.table10',100.96.104.122:61026,Alex,db2,table10,153,drop
+2020-05-27 10:26:08,26.57.146.20:17415,'insert into db10.table1 values (1, 2, 3)',237.72.155.207:61026,Cindy,db10,table1,246,insert
+2020-05-27 10:26:08,194.154.213.62:18560,'drop table db3.table7',63.166.193.187:41334,Eva,db3,table7,89,drop
+2014-09-04 14:34:29,63.166.193.187:37911,'update db2.table2 set a=1 where b=2',180.110.72.245:37994,Bob,db2,table2,721,update
+2011-01-22 09:51:25,100.96.104.122:54488,'drop table db5.table3',180.110.72.245:54488,Frank,db5,table3,717,drop
+2014-08-21 19:17:37,26.57.146.20:59481,'drop table db10.table7',67.12.98.202:17415,Alex,db10,table7,583,drop
+2017-05-24 03:33:05,180.110.72.245:37911,'insert into db10.table8 values (1, 2, 3)',152.247.108.93:17415,Frank,db10,table8,721,insert
+2018-03-15 19:47:25,115.211.232.2:21058,'update db2.table3 set a=1 where b=2',115.211.232.2:6335,David,db2,table3,522,update
+2020-05-10 17:19:31,75.52.109.187:1824,'select * from db6.table10',225.33.203.157:1824,David,db6,table10,501,select
+2019-11-12 12:08:27,129.162.127.148:43874,'drop table db8.table7',225.33.203.157:7265,David,db8,table7,941,drop
+2016-11-19 04:29:14,129.162.127.148:43874,'insert into db2.table10 values (1, 2, 3)',115.211.232.2:64639,Frank,db2,table10,657,insert
+2019-11-12 12:08:27,115.211.232.2:7265,'drop table db6.table2',55.184.127.138:1824,Frank,db6,table2,522,drop
+2015-02-20 03:40:38,141.198.154.62:1824,'drop table db3.table7',20.206.87.145:6335,Bob,db3,table7,357,drop
+2016-11-19 04:29:14,115.211.232.2:7265,'drop table db4.table4',225.33.203.157:6335,Bob,db4,table4,522,drop
+2018-11-27 10:19:10,20.206.87.145:13386,'insert into db10.table1 values (1, 2, 3)',165.107.106.24:12467,Helen,db10,table1,725,insert
+2018-03-15 19:47:25,165.107.106.24:7265,'insert into db3.table6 values (1, 2, 3)',115.211.232.2:6335,Gavin,db3,table6,813,insert
+2020-05-10 17:19:31,115.211.232.2:43874,'insert into db10.table2 values (1, 2, 3)',165.107.106.24:13386,Eva,db10,table2,813,insert
+2015-01-17 07:50:05,62.195.66.243:45044,'truncate table db3.table10',176.104.249.146:45044,David,db3,table10,765,truncate
+2015-01-17 07:50:05,32.88.92.131:21843,'truncate table db7.table7',8.144.90.217:45044,Helen,db7,table7,548,truncate
+2018-07-22 07:02:20,186.252.33.232:45044,'drop table db4.table9',186.252.33.232:59405,Eva,db4,table9,559,drop
+2015-05-21 10:53:08,214.194.209.2:45044,'truncate table db2.table6',214.194.209.2:21843,Ivan,db2,table6,23,truncate
+2015-07-28 18:04:48,135.232.35.14:59405,'insert into db7.table3 values (1, 2, 3)',176.104.249.146:54320,Helen,db7,table3,590,insert
+2011-07-26 08:03:11,8.144.90.217:45044,'delete from db3.table1 where a=1',148.59.224.173:28681,David,db3,table1,23,delete
+2013-11-03 07:07:53,32.88.92.131:55846,'truncate table db9.table4',148.59.224.173:25080,Jack,db9,table4,223,truncate
+2011-07-26 08:03:11,62.195.66.243:25080,'delete from db8.table5 where a=1',148.59.224.173:28681,Gavin,db8,table5,590,delete
+2015-05-21 10:53:08,228.1.201.7:52714,'truncate table db6.table7',228.1.201.7:11609,Frank,db6,table7,223,truncate
+2015-07-28 18:04:48,186.252.33.232:11609,'truncate table db10.table7',176.104.249.146:59405,Ivan,db10,table7,748,truncate
+2018-03-22 15:48:10,68.45.143.117:36676,'update db7.table2 set a=1 where b=2',243.54.120.43:10737,David,db7,table2,667,update
+2016-01-25 22:38:47,40.177.229.141:52752,'select * from db1.table2',234.27.126.123:15620,Cindy,db1,table2,89,select
+2010-10-08 17:57:31,75.205.10.211:52752,'drop table db4.table9',75.205.10.211:12560,Ivan,db4,table9,667,drop
+2014-10-09 08:30:02,210.2.90.31:36676,'use db9',243.59.201.110:36378,Frank,None,None,365,system_command
+2012-09-09 19:55:47,101.246.60.68:27746,'use db6',210.2.90.31:27746,Frank,None,None,365,system_command
+2012-11-11 10:51:06,159.153.113.224:52752,'drop table db6.table10',68.45.143.117:31155,Gavin,db6,table10,166,drop
+2014-10-09 08:30:02,234.27.126.123:16582,'use db10',68.45.143.117:52752,Frank,None,None,704,system_command
+2016-01-25 22:38:47,101.246.60.68:12560,'insert into db2.table2 values (1, 2, 3)',68.45.143.117:15620,Cindy,db2,table2,704,insert
+2014-10-09 08:30:02,159.153.113.224:10737,'select * from db10.table9',40.177.229.141:12560,Alex,db10,table9,365,select
+2014-10-09 08:30:02,68.45.143.117:36676,'drop table db4.table5',75.205.10.211:52752,Eva,db4,table5,667,drop
+2014-12-02 09:25:51,229.105.192.181:59214,'insert into db1.table2 values (1, 2, 3)',14.90.236.233:14832,Jack,db1,table2,486,insert
+2014-12-02 09:25:51,227.199.193.236:12775,'insert into db1.table10 values (1, 2, 3)',49.152.26.182:20825,Cindy,db1,table10,893,insert
+2010-01-07 21:09:53,235.4.97.84:20825,'truncate table db1.table6',205.17.49.232:27423,Gavin,db1,table6,994,truncate
+2010-08-03 13:46:31,229.105.192.181:55831,'insert into db3.table9 values (1, 2, 3)',49.152.26.182:12775,Bob,db3,table9,666,insert
+2015-07-11 06:31:50,227.199.193.236:27423,'drop table db1.table1',78.149.42.223:55831,Alex,db1,table1,610,drop
+2013-08-03 15:42:58,49.78.197.28:59214,'update db1.table2 set a=1 where b=2',49.78.197.28:8800,Jack,db1,table2,994,update
+2014-12-02 09:25:51,5.39.66.205:8800,'drop table db2.table2',49.152.26.182:42395,Gavin,db2,table2,780,drop
+2013-08-03 15:42:58,17.154.184.103:14832,'delete from db5.table10 where a=1',229.105.192.181:20825,Eva,db5,table10,994,delete
+2011-05-21 16:07:48,229.105.192.181:59214,'update db5.table1 set a=1 where b=2',78.149.42.223:12775,Jack,db5,table1,866,update
+2011-05-21 16:07:48,235.4.97.84:20825,'insert into db2.table6 values (1, 2, 3)',205.17.49.232:28364,Jack,db2,table6,83,insert
+2013-12-21 04:37:41,49.97.200.253:49306,'update db8.table7 set a=1 where b=2',88.187.59.198:62502,Ivan,db8,table7,27,update
+2019-04-26 08:55:49,229.9.27.79:2432,'update db9.table6 set a=1 where b=2',48.59.51.111:3976,Alex,db9,table6,958,update
+2018-06-23 13:32:32,229.9.27.79:49306,'select * from db10.table6',48.59.51.111:51508,Bob,db10,table6,661,select
+2013-04-22 10:55:12,48.59.51.111:2432,'drop table db7.table6',31.3.135.55:21169,Ivan,db7,table6,661,drop
+2013-04-22 10:55:12,48.59.51.111:2432,'drop table db2.table3',229.9.27.79:18542,Alex,db2,table3,476,drop
+2018-06-23 13:32:32,47.96.227.247:18542,'select * from db1.table1',31.3.135.55:32196,Frank,db1,table1,487,select
+2012-04-05 21:27:13,59.167.46.154:3976,'select * from db2.table9',48.59.51.111:18542,Frank,db2,table9,812,select
+2013-06-09 04:25:32,59.167.46.154:2432,'select * from db3.table4',47.96.227.247:44152,Frank,db3,table4,487,select
+2018-06-23 13:32:32,48.59.51.111:1964,'select * from db5.table7',59.167.46.154:62502,Jack,db5,table7,487,select
+2013-12-21 04:37:41,31.3.135.55:1964,'truncate table db10.table9',47.96.227.247:2432,Bob,db10,table9,476,truncate
+2014-03-14 16:46:58,72.220.142.249:11402,'update db8.table4 set a=1 where b=2',133.126.24.33:13183,Alex,db8,table4,110,update
+2015-01-11 07:44:01,238.156.62.22:6162,'insert into db10.table4 values (1, 2, 3)',134.167.73.99:55186,Bob,db10,table4,746,insert
+2016-10-05 03:49:58,72.220.142.249:51667,'update db1.table8 set a=1 where b=2',104.206.172.78:51667,David,db1,table8,110,update
+2020-12-16 12:27:31,235.116.110.49:3511,'delete from db2.table2 where a=1',52.192.191.19:41651,Ivan,db2,table2,504,delete
+2011-04-26 08:50:23,134.167.73.99:27000,'update db6.table4 set a=1 where b=2',133.126.24.33:25455,David,db6,table4,504,update
+2016-10-05 03:49:58,76.80.66.45:55186,'update db1.table1 set a=1 where b=2',76.80.66.45:44443,Frank,db1,table1,58,update
+2012-07-20 11:39:24,58.148.198.128:13183,'delete from db8.table5 where a=1',134.167.73.99:13183,Ivan,db8,table5,733,delete
+2014-03-14 16:46:58,72.220.142.249:11402,'insert into db2.table5 values (1, 2, 3)',235.116.110.49:51667,Eva,db2,table5,184,insert
+2015-01-11 07:44:01,133.126.24.33:13183,'delete from db6.table3 where a=1',21.126.90.149:3511,Ivan,db6,table3,733,delete
+2020-12-16 12:27:31,104.206.172.78:6162,'select * from db2.table7',21.126.90.149:44443,Jack,db2,table7,746,select
+2016-08-13 18:07:20,134.172.79.32:995,'select * from db4.table6',30.93.27.187:1997,Ivan,db4,table6,31,select
+2016-12-09 07:02:10,133.5.114.153:39429,'use db1',224.66.225.144:60671,Eva,None,None,970,system_command
+2016-08-13 18:07:20,134.172.79.32:53061,'select * from db10.table2',194.8.122.197:1997,Eva,db10,table2,181,select
+2015-04-08 00:16:56,30.93.27.187:22948,'delete from db2.table3 where a=1',36.26.78.33:42988,Helen,db2,table3,31,delete
+2016-12-09 07:02:10,224.66.225.144:1997,'truncate table db3.table6',208.143.39.11:16445,Frank,db3,table6,219,truncate
+2013-02-21 07:06:32,240.59.145.175:53061,'insert into db9.table5 values (1, 2, 3)',224.66.225.144:65406,Cindy,db9,table5,31,insert
+2016-08-13 18:07:20,208.143.39.11:57593,'truncate table db6.table7',134.172.79.32:65406,Gavin,db6,table7,181,truncate
+2016-12-09 07:02:10,194.8.122.197:16445,'truncate table db10.table8',36.26.78.33:65406,Gavin,db10,table8,181,truncate
+2013-09-03 23:01:57,194.8.122.197:16445,'select * from db2.table10',240.59.145.175:60671,Cindy,db2,table10,219,select
+2013-02-21 07:06:32,36.26.78.33:57593,'select * from db1.table4',27.30.122.93:53061,Bob,db1,table4,713,select
+2015-09-18 19:43:25,144.240.112.122:22371,'insert into db9.table6 values (1, 2, 3)',174.21.244.29:38623,Bob,db9,table6,130,insert
+2015-05-09 08:18:05,25.155.215.20:7794,'delete from db9.table9 where a=1',237.48.79.205:47624,Cindy,db9,table9,618,delete
+2013-12-04 18:40:37,25.155.215.20:38623,'delete from db7.table3 where a=1',120.143.9.74:48527,David,db7,table3,744,delete
+2012-12-21 23:30:24,12.245.23.19:47624,'insert into db7.table10 values (1, 2, 3)',174.21.244.29:54705,Gavin,db7,table10,294,insert
+2013-07-23 09:30:23,39.194.107.254:47624,'delete from db4.table4 where a=1',144.240.112.122:47624,Eva,db4,table4,632,delete
+2020-06-07 07:37:57,120.143.9.74:45009,'drop table db10.table9',237.48.79.205:38623,Helen,db10,table9,812,drop
+2017-05-04 02:48:53,25.155.215.20:47624,'delete from db2.table10 where a=1',120.143.9.74:38623,David,db2,table10,502,delete
+2015-09-18 19:43:25,174.21.244.29:56522,'drop table db3.table6',39.194.107.254:47624,Cindy,db3,table6,554,drop
+2013-12-04 18:40:37,140.29.143.226:7794,'select * from db7.table5',12.245.23.19:45009,Gavin,db7,table5,632,select
+2012-12-21 23:30:24,144.240.112.122:22371,'insert into db6.table3 values (1, 2, 3)',140.29.143.226:19065,Bob,db6,table3,744,insert
+2018-07-19 01:30:02,200.144.208.3:33080,'update db7.table6 set a=1 where b=2',237.3.211.35:33080,Gavin,db7,table6,506,update
+2018-07-19 01:30:02,94.76.75.231:23041,'update db7.table5 set a=1 where b=2',237.3.211.35:33592,Jack,db7,table5,506,update
+2020-06-18 07:44:44,200.144.208.3:64015,'delete from db8.table3 where a=1',152.99.53.116:51749,Eva,db8,table3,533,delete
+2020-06-18 07:44:44,94.76.75.231:47368,'update db7.table4 set a=1 where b=2',94.76.75.231:16015,Frank,db7,table4,14,update
+2010-04-05 02:50:49,1.57.246.202:58684,'delete from db1.table5 where a=1',176.162.141.53:64015,Jack,db1,table5,197,delete
+2018-07-19 01:30:02,237.3.211.35:33080,'drop table db10.table6',1.57.246.202:33080,Ivan,db10,table6,225,drop
+2016-03-04 23:25:31,176.162.141.53:33080,'delete from db2.table3 where a=1',152.99.53.116:47368,Frank,db2,table3,955,delete
+2010-03-27 19:46:51,218.99.92.56:33080,'delete from db2.table2 where a=1',48.98.185.207:47368,Bob,db2,table2,955,delete
+2018-07-19 01:30:02,83.235.32.171:47368,'truncate table db6.table5',19.69.99.112:6202,Ivan,db6,table5,468,truncate
+2010-04-05 02:50:49,1.57.246.202:64015,'truncate table db1.table9',152.99.53.116:16015,Eva,db1,table9,14,truncate
+2016-05-14 14:03:18,23.168.72.186:14995,'drop table db9.table1',167.213.207.95:54943,Eva,db9,table1,878,drop
+2012-02-03 06:31:55,64.195.164.149:20555,'delete from db2.table1 where a=1',23.168.72.186:16849,Gavin,db2,table1,4,delete
+2018-04-01 06:52:03,7.208.54.102:14034,'truncate table db4.table5',158.255.241.138:20302,Helen,db4,table5,574,truncate
+2016-05-14 14:03:18,45.12.124.64:20214,'delete from db4.table7 where a=1',158.255.241.138:16849,David,db4,table7,295,delete
+2012-04-09 00:49:09,163.15.142.171:51293,'delete from db2.table4 where a=1',41.42.198.235:14034,Gavin,db2,table4,878,delete
+2015-11-10 21:35:52,163.15.142.171:2088,'use db9',45.12.124.64:37402,Cindy,None,None,104,system_command
+2012-02-03 06:31:55,158.255.241.138:2088,'truncate table db2.table9',23.168.72.186:16849,Eva,db2,table9,878,truncate
+2015-01-05 14:46:59,158.255.241.138:20555,'truncate table db1.table4',7.208.54.102:16849,Bob,db1,table4,354,truncate
+2010-02-25 09:02:08,64.195.164.149:16849,'use db3',163.15.142.171:51293,Gavin,None,None,414,system_command
+2010-02-25 09:02:08,158.255.241.138:14995,'truncate table db4.table2',41.42.198.235:2088,Helen,db4,table2,933,truncate
+2017-12-15 09:29:11,253.69.153.47:25068,'truncate table db10.table7',169.154.139.192:25068,Bob,db10,table7,928,truncate
+2019-11-08 07:45:32,171.20.85.34:14304,'select * from db3.table9',253.69.153.47:36169,Ivan,db3,table9,971,select
+2019-11-08 07:45:32,123.210.220.98:9008,'drop table db4.table4',43.104.97.56:25068,Frank,db4,table4,928,drop
+2012-09-15 01:13:21,190.31.30.234:14304,'select * from db2.table7',140.18.87.243:25068,Frank,db2,table7,987,select
+2018-09-10 10:50:24,165.176.39.108:36079,'drop table db5.table3',200.35.130.54:36079,Ivan,db5,table3,971,drop
+2012-08-05 02:12:45,190.31.30.234:45759,'insert into db5.table2 values (1, 2, 3)',140.18.87.243:45759,Ivan,db5,table2,264,insert
+2018-09-10 10:50:24,123.210.220.98:14304,'select * from db6.table3',200.35.130.54:25068,Eva,db6,table3,238,select
+2013-03-22 15:03:35,190.31.30.234:14304,'delete from db10.table5 where a=1',140.18.87.243:36079,Ivan,db10,table5,295,delete
+2019-11-08 07:45:32,253.69.153.47:45759,'select * from db3.table10',200.35.130.54:45759,David,db3,table10,928,select
+2013-03-22 15:03:35,169.154.139.192:14304,'select * from db5.table5',140.18.87.243:28790,Bob,db5,table5,971,select
+2010-01-25 04:54:04,136.9.79.44:28477,'delete from db1.table8 where a=1',205.123.242.58:15771,Ivan,db1,table8,844,delete
+2010-01-25 04:54:04,199.159.213.250:323,'update db5.table9 set a=1 where b=2',119.113.213.110:42320,Frank,db5,table9,30,update
+2014-01-27 04:06:17,79.154.63.158:47686,'select * from db7.table9',79.154.63.158:56916,Ivan,db7,table9,15,select
+2012-01-13 02:59:59,79.154.63.158:15771,'insert into db5.table4 values (1, 2, 3)',160.157.117.179:47686,Bob,db5,table4,163,insert
+2014-07-20 16:38:47,136.9.79.44:323,'truncate table db10.table10',61.153.200.36:54932,David,db10,table10,789,truncate
+2010-01-25 04:54:04,119.113.213.110:56916,'insert into db5.table3 values (1, 2, 3)',192.154.222.235:54932,Jack,db5,table3,844,insert
+2010-01-25 04:54:04,75.111.2.161:28477,'truncate table db2.table8',192.154.222.235:15771,David,db2,table8,473,truncate
+2020-09-16 07:23:15,192.154.222.235:15771,'truncate table db7.table4',116.44.192.225:54932,Cindy,db7,table4,789,truncate
+2016-10-23 14:16:17,160.157.117.179:44327,'select * from db4.table1',75.111.2.161:42320,Gavin,db4,table1,509,select
+2014-01-27 04:06:17,116.44.192.225:47686,'update db9.table6 set a=1 where b=2',160.157.117.179:54932,Alex,db9,table6,975,update
+2012-08-21 07:42:58,224.47.235.143:60758,'truncate table db6.table9',155.220.116.239:49180,Jack,db6,table9,329,truncate
+2018-09-02 13:11:44,7.240.191.48:59547,'use db6',216.6.57.79:33149,Alex,None,None,300,system_command
+2017-02-17 10:09:05,174.84.18.124:3465,'use db3',171.248.97.110:60607,Bob,None,None,552,system_command
+2020-05-28 11:26:42,171.248.97.110:49180,'truncate table db4.table10',69.193.193.15:3465,Ivan,db4,table10,447,truncate
+2020-06-09 19:09:52,224.47.235.143:39295,'truncate table db8.table10',171.248.97.110:39295,David,db8,table10,552,truncate
+2011-12-16 09:54:35,224.47.235.143:59547,'truncate table db5.table7',10.191.40.177:3465,Eva,db5,table7,300,truncate
+2018-09-02 13:11:44,10.191.40.177:60607,'truncate table db10.table10',29.116.187.111:60607,Helen,db10,table10,121,truncate
+2018-02-13 01:03:03,10.191.40.177:17213,'truncate table db2.table1',155.220.116.239:17213,Cindy,db2,table1,251,truncate
+2012-08-21 07:42:58,171.248.97.110:30883,'use db9',114.198.197.230:33149,Bob,None,None,121,system_command
+2020-06-09 19:09:52,114.198.197.230:33149,'update db3.table6 set a=1 where b=2',114.198.197.230:3465,Jack,db3,table6,96,update
+2014-10-19 10:21:59,68.239.89.231:18908,'drop table db10.table10',184.111.47.56:57054,Jack,db10,table10,500,drop
+2017-10-04 15:30:46,28.159.198.221:33772,'insert into db1.table6 values (1, 2, 3)',28.159.198.221:48835,Alex,db1,table6,528,insert
+2018-02-20 13:38:10,94.145.1.110:48835,'select * from db9.table3',239.160.71.33:452,Jack,db9,table3,407,select
+2014-11-02 23:30:47,142.146.52.114:43145,'delete from db4.table6 where a=1',150.101.213.29:42323,Ivan,db4,table6,500,delete
+2016-07-08 21:18:25,28.159.198.221:57054,'select * from db5.table9',209.95.66.95:42323,Alex,db5,table9,929,select
+2018-02-20 13:38:10,28.159.198.221:63725,'use db9',184.111.47.56:63725,David,None,None,384,system_command
+2020-03-23 07:22:50,239.160.71.33:63725,'use db10',184.111.47.56:452,Gavin,None,None,407,system_command
+2013-11-11 00:39:52,239.160.71.33:63725,'drop table db5.table2',7.21.155.217:33772,Alex,db5,table2,957,drop
+2019-05-06 20:43:32,56.88.117.23:42323,'delete from db9.table6 where a=1',28.159.198.221:33772,Gavin,db9,table6,583,delete
+2014-12-20 16:35:26,68.239.89.231:48835,'drop table db3.table9',68.239.89.231:63725,Ivan,db3,table9,326,drop

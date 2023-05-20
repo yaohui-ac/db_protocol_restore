@@ -1,0 +1,1 @@
+query_time,source_host,sql_text,target_host,user_name,database_name_str,table_name_str,exec_time,query_type_name
