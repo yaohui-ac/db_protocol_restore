@@ -76,7 +76,7 @@ class SQLRecord(db.Model):
             "source_host": "源IP",
             "sql_text": "SQL语句",
             "target_host": "目标IP",
-            "user_name": "用户名",
+            "user_name": "数据库用户",
             "database_name_str": "数据库名",
             "table_name_str": "表名",
             "exec_time": "执行时间",

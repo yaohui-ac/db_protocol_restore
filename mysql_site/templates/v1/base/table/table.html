@@ -18,7 +18,9 @@
                 <tr class="text-center">
                     <!--遍历所有的字段,从item中取出对应字段的值-->
                     {% for key in table["columns_map"].keys() %}
-                    <td>{{ item[key] }}</td>
+                    <td>
+                        <pre><code font-size="2em">{{ item[key] }}</code></pre>
+                    </td>
                     {% endfor %}
                     <td>
                         {% if table["operations"] %}
