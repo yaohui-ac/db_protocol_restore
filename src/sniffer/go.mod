@@ -27,6 +27,7 @@ require (
 )
 
 require (
+	github.com/blastrain/vitess-sqlparser v0.0.0-20201030050434-a139afbb1aba // indirect
 	github.com/frankban/quicktest v1.14.5 // indirect
 	github.com/go-pg/pg/v10 v10.11.0 // indirect
 	github.com/go-pg/zerochecker v0.2.0 // indirect
@@ -41,6 +42,7 @@ require (
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/juju/errors v1.0.0 // indirect
 	github.com/klauspost/compress v1.15.14 // indirect
+	github.com/krasun/gosqlparser v1.0.5 // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pierrec/lz4/v4 v4.1.17 // indirect
 	github.com/pingcap/goleveldb v0.0.0-20191226122134-f82aafb29989 // indirect

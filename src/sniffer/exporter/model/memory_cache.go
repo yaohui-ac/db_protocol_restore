@@ -5,6 +5,9 @@ import (
 	"fmt"
 )
 
+func CleanSqlText(str string) string {
+	return str
+}
 func HandleDBString(str string) {
 	var sql_detail SqlDetail
 	err := json.Unmarshal([]byte(str), &sql_detail)
@@ -15,7 +18,8 @@ func HandleDBString(str string) {
 	if IsBufferFull() || IsBufferTimerExpired() {
 		ResetBuffer()
 		//---数据库存储
-		BufferToDB(GetBuffer())
+		FlashToDB(GetBuffer())
 	}
+	sql_detail.SqlText = CleanSqlText(sql_detail.SqlText)
 	InsertToBuffer(&sql_detail)
 }
