@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"time"
 
 	pg "github.com/go-pg/pg/v10"
 )
@@ -11,19 +12,18 @@ const (
 )
 
 type mysql_detail_table struct {
-	tableName         struct{} `pg:"mysql_detail,alias:mysql_detail"`
-	Id                int64    `pg:",pk"`
-	UserName          string   `pg:",notnull"`
-	SqlText           string   `pg:",notnull"`
-	query_time        uint64   `pg:",notnull"`
-	source_ip         string   `pg:",notnull"`
-	target_ip         string   `pg:",notnull"`
-	source_port       int8     `pg:",notnull"`
-	target_port       int8     `pg:",notnull"`
-	database_name_str string
-	table_name_str    string
-	query_type        int8    `pg:",notnull"`
-	exec_time         float64 `pg:",notnull"`
+	Id              int64     `pg:"id,pk"`
+	UserName        string    `pg:"user_name,notnull"`
+	SqlText         string    `pg:"sql_text,notnull"`
+	QueryTime       time.Time `pg:"query_time,notnull"`
+	SourceIp        string    `pg:"source_ip,notnull"`
+	TargetIp        string    `pg:"target_ip,notnull"`
+	SourcePort      int8      `pg:"source_port,notnull"`
+	TargetPort      int8      `pg:"target_port,notnull"`
+	DatabaseNameStr string    `pg:"database_name_str"`
+	TableNameStr    string    `pg:"table_name_str"`
+	QueryType       int8      `pg:",notnull"`
+	ExecTime        float64   `pg:",notnull"`
 }
 
 func GetPostgreConnection() *pg.DB {
@@ -42,4 +42,8 @@ func TestDBRunning(db *pg.DB) {
 		panic(err)
 	}
 
+}
+func BufferToDB(buffer []*SqlDetail) {
+
+	return
 }
