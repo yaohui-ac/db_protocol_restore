@@ -69,7 +69,7 @@ func GetDBDetailQueryType(sql_text string) int8 {
 
 }
 func GetSqlTableName(sql_text string) string {
-	// todo:
+	// todo:ls
 	query, err := sqlparser.Parse(sql_text)
 	if err != nil {
 		fmt.Printf("%+v", err)
