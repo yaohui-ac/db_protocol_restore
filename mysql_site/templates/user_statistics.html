@@ -20,23 +20,23 @@
             <h5 class="card-title text-center">{% if request.args.database_name_str %}当前所选数据库 {% else %}最常使用数据库 {% endif %}</h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>名称</h6>
+                    <h5>名称</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{db_name}}</h6>
+                    <h5>{{db_name}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>SQL执行次数</h6>
+                    <h5>SQL执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{db_query_count}}</h6>
+                    <h5>{{db_query_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{db_statistics_url}}">>>></a>
@@ -49,23 +49,23 @@
             <h5 class="card-title text-center">{% if request.args.table_name_str %}当前所选表 {% else %}最常使用数据表 {% endif %}</h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>名称</h6>
+                    <h5>名称</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{table_name}}</h6>
+                    <h5>{{table_name}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>SQL执行次数</h6>
+                    <h5>SQL执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{table_query_count}}</h6>
+                    <h5>{{table_query_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{table_statistics_url}}">>>></a>
@@ -82,15 +82,15 @@
             <h5 class="card-title text-center"><b>SELECT</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>执行次数</h6>
+                    <h5>执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{select_count}}</h6>
+                    <h5>{{select_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{select_statistics_url}}">>>></a>
@@ -104,15 +104,15 @@
             <h5 class="card-title text-center"><b>INSERT</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>执行次数</h6>
+                    <h5>执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{insert_count}}</h6>
+                    <h5>{{insert_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{insert_statistics_url}}">>>></a>
@@ -126,15 +126,15 @@
             <h5 class="card-title text-center"><b>UPDATE</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>执行次数</h6>
+                    <h5>执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{update_count}}</h6>
+                    <h5>{{update_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{update_statistics_url}}">>>></a>
@@ -148,15 +148,15 @@
             <h5 class="card-title text-center"><b>DELETE</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>执行次数</h6>
+                    <h5>执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{delete_count}}</h6>
+                    <h5>{{delete_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{delete_statistics_url}}">>>></a>
@@ -170,15 +170,15 @@
             <h5 class="card-title text-center"><b>TRUNCATE</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>执行次数</h6>
+                    <h5>执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{truncate_count}}</h6>
+                    <h5>{{truncate_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{truncate_statistics_url}}">>>></a>
@@ -192,15 +192,15 @@
             <h5 class="card-title text-center"><b>DROP</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>执行次数</h6>
+                    <h5>执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{drop_count}}</h6>
+                    <h5>{{drop_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{drop_statistics_url}}">>>></a>
@@ -213,15 +213,15 @@
             <h5 class="card-title text-center"><b>SYSTEM-COMMAND</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>执行次数</h6>
+                    <h5>执行次数</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{system_command_count}}</h6>
+                    <h5>{{system_command_count}}</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{system_command_statistics_url}}">>>></a>
@@ -234,15 +234,15 @@
             <h5 class="card-title text-center"><b>最慢执行时间</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>时间</h6>
+                    <h5>时间</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{slowest_query}}ms</h6>
+                    <h5>{{slowest_query}}ms</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{exec_time_statistics_url}}">>>></a>
@@ -255,15 +255,15 @@
             <h5 class="card-title text-center"><b>最快执行时间</b></h5>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>时间</h6>
+                    <h5>时间</h5>
                 </div>
                 <div class="col-8">
-                    <h6>{{fastest_query}}ms</h6>
+                    <h5>{{fastest_query}}ms</h5>
                 </div>
             </div>
             <div class="row text-center">
                 <div class="col-4">
-                    <h6>查看详情</h6>
+                    <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
                     <a type="button" class="btn btn-primary" href="{{exec_time_statistics_asc_url}}">>>></a>
