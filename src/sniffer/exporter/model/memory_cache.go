@@ -3,9 +3,13 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 )
 
 func CleanSqlText(str string) string {
+	if strings.HasPrefix(str, "\u0000\u0001") {
+		str = strings.TrimPrefix(str, "\u0000\u0001")
+	}
 	return str
 }
 func HandleDBString(str string) {

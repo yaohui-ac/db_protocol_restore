@@ -2,13 +2,11 @@ package model
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
 
 	pg "github.com/go-pg/pg/v10"
-	sqlparser "github.com/krasun/gosqlparser"
 )
 
 const (
@@ -47,41 +45,28 @@ func TestDBRunning(db *pg.DB) {
 	}
 
 }
-func GetDBDetailQueryType(sql_text string) int8 {
+func GetDBDetailQueryType(sql_text string) SqlType {
 	words := strings.Fields(sql_text)
 	query_type_str := strings.ToLower(words[0])
 	switch query_type_str {
 	case "select":
-		return 1
+		return SELECT_TYPE
 	case "insert":
-		return 2
+		return INSERT_TYPE
 	case "update":
-		return 3
+		return UPDATE_TYPE
 	case "delete":
-		return 4
+		return DELETE_TYPE
 	case "truncate":
-		return 5
+		return TRUNCATE_TYPE
 	case "drop":
-		return 6
+		return DROP_TYPE
 	default:
-		return 7
+		return SYS_COMMAND_TYPE
 	}
 
 }
-func GetSqlTableName(sql_text string) string {
-	// todo:ls
-	query, err := sqlparser.Parse(sql_text)
-	if err != nil {
-		fmt.Printf("%+v", err)
-		return ""
-	}
-	json_str, err := json.Marshal(query)
-	if err != nil {
-		fmt.Printf("unexpected error: %s", err)
-		return ""
-	}
-	return string(json_str)
-}
+
 func BufferDetailToDBDetail(s *SqlDetail) *db_sql_detail {
 	db_detail := db_sql_detail{}
 	db_detail.ExecTime = s.ExecTime
@@ -94,19 +79,27 @@ func BufferDetailToDBDetail(s *SqlDetail) *db_sql_detail {
 	db_detail.DatabaseNameStr = s.DatabaseNameStr
 	db_detail.ExecTime = s.ExecTime
 	db_detail.QueryTime = time.Unix(int64(s.QueryTime), 0)
-	db_detail.QueryType = GetDBDetailQueryType(db_detail.SqlText)
+
+	query_type := GetDBDetailQueryType(db_detail.SqlText)
+	db_detail.QueryType = query_type.Int8()
+	db_detail.TableNameStr = GetTableName(db_detail.SqlText, query_type)
 	return &db_detail
 }
 func FlashToDB(buffer []*SqlDetail) {
 	conn := GetPostgreConnection()
 	TestDBRunning(conn)
-	flash_db_list := make([]db_sql_detail, 0)
+	flash_db_list := make([]*db_sql_detail, 0)
 	for i := 0; i <= len(buffer); i++ {
 		if buffer[i] == nil {
 			continue
 		}
 		db_tail := BufferDetailToDBDetail(buffer[i])
-		flash_db_list = append(flash_db_list, *db_tail)
+		flash_db_list = append(flash_db_list, db_tail)
 	}
+	_, err := pg.Model(&flash_db_list).Insert()
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+
 	return
 }
