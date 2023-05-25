@@ -19,7 +19,7 @@ type SqlDetail struct {
 	QueryType       int8    `json:"-"`
 }
 
-const sql_buffer_len = 12
+const sql_buffer_len = 1024
 
 var cur_point = 0
 var to_db_point = 1 - cur_point
@@ -35,7 +35,7 @@ func init() {
 	cur_point = 0
 	cur_buffer_count = 0
 	to_db_point = 1 - cur_point
-	buffer_timer = time.NewTimer(1 * time.Minute)
+	buffer_timer = time.NewTimer(5 * time.Minute)
 }
 
 func IsBufferFull() bool {
@@ -52,7 +52,7 @@ func IsBufferTimerExpired() bool {
 }
 
 func ResetBufferTick() {
-	buffer_timer.Reset(1 * time.Minute)
+	buffer_timer.Reset(5 * time.Minute)
 }
 
 func ResetBuffer() {

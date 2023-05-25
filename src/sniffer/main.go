@@ -36,7 +36,7 @@ func mainServer() {
 	networkCard := capture.NewNetworkCard()
 	fmt.Println("begin running")
 	for queryPiece := range networkCard.Listen() {
-		fmt.Println("666")
+
 		err := ept.Export(queryPiece)
 		if err != nil {
 

@@ -76,10 +76,6 @@ func FlashToDB(buffer []*SqlDetail) {
 		db_tail := BufferDetailToDBDetail(buffer[i])
 		flash_db_list = append(flash_db_list, *db_tail)
 	}
-	for _, v := range flash_db_list {
-		fmt.Println(v.UserName, v.QueryTime, v.SqlText, "\n", v.SourceIp, v.TargetIp,
-			v.SourcePort, v.TargetPort, v.TableNameStr, v.DatabaseNameStr, v.QueryType, v.ExecTime)
-	}
 
 	_, err := conn.Model(&flash_db_list).Insert()
 	if err != nil {
