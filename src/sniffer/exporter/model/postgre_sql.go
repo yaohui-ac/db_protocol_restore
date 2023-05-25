@@ -3,7 +3,6 @@ package model
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	pg "github.com/go-pg/pg/v10"
@@ -42,27 +41,6 @@ func TestDBRunning(db *pg.DB) {
 
 	if err := db.Ping(ctx); err != nil {
 		panic(err)
-	}
-
-}
-func GetDBDetailQueryType(sql_text string) SqlType {
-	words := strings.Fields(sql_text)
-	query_type_str := strings.ToLower(words[0])
-	switch query_type_str {
-	case "select":
-		return SELECT_TYPE
-	case "insert":
-		return INSERT_TYPE
-	case "update":
-		return UPDATE_TYPE
-	case "delete":
-		return DELETE_TYPE
-	case "truncate":
-		return TRUNCATE_TYPE
-	case "drop":
-		return DROP_TYPE
-	default:
-		return SYS_COMMAND_TYPE
 	}
 
 }

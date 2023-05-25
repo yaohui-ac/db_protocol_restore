@@ -8,7 +8,7 @@ const (
 	UPDATE_TYPE      SqlType = 3
 	DELETE_TYPE      SqlType = 4
 	TRUNCATE_TYPE    SqlType = 5
-	DROP_TYPE        SqlType = 6
+	DDL_TYPE         SqlType = 6
 	SYS_COMMAND_TYPE SqlType = 7
 )
 
@@ -24,8 +24,8 @@ func (s SqlType) String() string {
 		return "delete"
 	case TRUNCATE_TYPE:
 		return "truncate"
-	case DROP_TYPE:
-		return "drop"
+	case DDL_TYPE:
+		return "ddl"
 	case SYS_COMMAND_TYPE:
 		return "system command"
 	default:

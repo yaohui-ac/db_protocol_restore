@@ -32,7 +32,7 @@ func init() {
 	cur_point = 0
 	cur_buffer_len = 0
 	to_db_point = 1 - cur_point
-	buffer_timer = time.NewTimer(60 * time.Second)
+	buffer_timer = time.NewTimer(5 * time.Minute)
 }
 
 func IsBufferFull() bool {
@@ -49,7 +49,7 @@ func IsBufferTimerExpired() bool {
 }
 
 func ResetBufferTick() {
-	buffer_timer.Reset(60 * time.Second)
+	buffer_timer.Reset(5 * time.Minute)
 }
 
 func ResetBuffer() {
