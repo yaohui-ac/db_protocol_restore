@@ -13,14 +13,15 @@ const (
 )
 
 type db_sql_detail struct {
+	tableName       struct{}  `pg:"sql_record,alias:mysql_record"`
 	Id              int64     `pg:"id,pk"`
 	UserName        string    `pg:"user_name,notnull"`
 	SqlText         string    `pg:"sql_text,notnull"`
 	QueryTime       time.Time `pg:"query_time,notnull"`
 	SourceIp        string    `pg:"source_ip,notnull"`
 	TargetIp        string    `pg:"target_ip,notnull"`
-	SourcePort      int8      `pg:"source_port,notnull"`
-	TargetPort      int8      `pg:"target_port,notnull"`
+	SourcePort      uint16    `pg:"source_port,notnull"`
+	TargetPort      uint16    `pg:"target_port,notnull"`
 	DatabaseNameStr string    `pg:"database_name_str"`
 	TableNameStr    string    `pg:"table_name_str"`
 	QueryType       int8      `pg:",notnull"`
@@ -40,6 +41,7 @@ func TestDBRunning(db *pg.DB) {
 	ctx := context.Background()
 
 	if err := db.Ping(ctx); err != nil {
+		fmt.Println("test ping failed")
 		panic(err)
 	}
 
@@ -66,15 +68,20 @@ func BufferDetailToDBDetail(s *SqlDetail) *db_sql_detail {
 func FlashToDB(buffer []*SqlDetail) {
 	conn := GetPostgreConnection()
 	TestDBRunning(conn)
-	flash_db_list := make([]*db_sql_detail, 0)
-	for i := 0; i <= len(buffer); i++ {
+	flash_db_list := make([]db_sql_detail, 0)
+	for i := 0; i < len(buffer); i++ {
 		if buffer[i] == nil {
 			continue
 		}
 		db_tail := BufferDetailToDBDetail(buffer[i])
-		flash_db_list = append(flash_db_list, db_tail)
+		flash_db_list = append(flash_db_list, *db_tail)
 	}
-	_, err := pg.Model(&flash_db_list).Insert()
+	for _, v := range flash_db_list {
+		fmt.Println(v.UserName, v.QueryTime, v.SqlText, "\n", v.SourceIp, v.TargetIp,
+			v.SourcePort, v.TargetPort, v.TableNameStr, v.DatabaseNameStr, v.QueryType, v.ExecTime)
+	}
+
+	_, err := conn.Model(&flash_db_list).Insert()
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

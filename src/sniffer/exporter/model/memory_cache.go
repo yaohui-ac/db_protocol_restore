@@ -21,9 +21,10 @@ func HandleDBString(str string) {
 	}
 	if IsBufferFull() || IsBufferTimerExpired() {
 		ResetBuffer()
-		//---数据库存储
-		go FlashToDB(GetBuffer())
+		FlashToDB(GetInsertToDBBuffer())
 	}
+
 	sql_detail.SqlText = CleanSqlText(sql_detail.SqlText)
+	//ShowCurBufferStatus()
 	InsertToBuffer(&sql_detail)
 }

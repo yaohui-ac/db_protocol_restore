@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type SqlDetail struct {
 	UserName        string  `json:"user"`
@@ -8,35 +11,35 @@ type SqlDetail struct {
 	QueryTime       uint64  `json:"bt"`
 	SourceIp        string  `json:"cip"`
 	TargetIp        string  `json:"sip"`
-	SourcePort      int8    `json:"cport"`
-	TargetPort      int8    `json:"sport"`
+	SourcePort      uint16  `json:"cport"`
+	TargetPort      uint16  `json:"sport"`
 	DatabaseNameStr string  `json:"db"`
 	ExecTime        float64 `json:"cms"`
-	TableNameStr    string
-	QueryType       int8
+	TableNameStr    string  `json:"-"`
+	QueryType       int8    `json:"-"`
 }
 
-const buffer_sql_count = 1000
+const sql_buffer_len = 12
 
 var cur_point = 0
 var to_db_point = 1 - cur_point
-var cur_buffer_len = 0
+var cur_buffer_count = 0
 var SqlBuffer [][]*SqlDetail //二维数组
 var buffer_timer *time.Timer
 
 func init() {
 	/*初始化缓存*/
 	SqlBuffer = make([][]*SqlDetail, 2)
-	SqlBuffer[0] = make([]*SqlDetail, buffer_sql_count)
-	SqlBuffer[1] = make([]*SqlDetail, buffer_sql_count)
+	SqlBuffer[0] = make([]*SqlDetail, sql_buffer_len)
+	SqlBuffer[1] = make([]*SqlDetail, sql_buffer_len)
 	cur_point = 0
-	cur_buffer_len = 0
+	cur_buffer_count = 0
 	to_db_point = 1 - cur_point
-	buffer_timer = time.NewTimer(5 * time.Minute)
+	buffer_timer = time.NewTimer(1 * time.Minute)
 }
 
 func IsBufferFull() bool {
-	return cur_point+1 == len(SqlBuffer)
+	return cur_buffer_count == sql_buffer_len
 }
 
 func IsBufferTimerExpired() bool {
@@ -49,23 +52,30 @@ func IsBufferTimerExpired() bool {
 }
 
 func ResetBufferTick() {
-	buffer_timer.Reset(5 * time.Minute)
+	buffer_timer.Reset(1 * time.Minute)
 }
 
 func ResetBuffer() {
 	cur_point = 1 - cur_point
 	to_db_point = 1 - cur_point
-	cur_buffer_len = 0
+	cur_buffer_count = 0
 	for i := 0; i < len(SqlBuffer[cur_point]); i++ {
+		// fmt.Print(i, " ")
 		SqlBuffer[cur_point][i] = nil //置空
 	}
+
 	ResetBufferTick()
+	// fmt.Println("Reset Over")
 }
 
 func InsertToBuffer(s *SqlDetail) {
-	SqlBuffer[cur_point][cur_buffer_len] = s
-	cur_buffer_len += 1
+	// fmt.Println("insert idx==>", cur_point, ":", cur_buffer_count)
+	SqlBuffer[cur_point][cur_buffer_count] = s
+	cur_buffer_count += 1
 }
-func GetBuffer() []*SqlDetail {
-	return SqlBuffer[cur_point]
+func GetInsertToDBBuffer() []*SqlDetail {
+	return SqlBuffer[to_db_point]
+}
+func ShowCurBufferStatus() {
+	fmt.Printf("Buffer %+v in use, Buffer len %+v, Have Use %+v\n", cur_point, sql_buffer_len, cur_buffer_count)
 }

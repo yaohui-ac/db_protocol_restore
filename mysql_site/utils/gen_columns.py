@@ -119,5 +119,5 @@ def delete_sql_record_all():
 if __name__ == '__main__':
     delete_sql_record_all()
     print("[delete over]")
-    insert_data()
-    print("[insert over]")
+    # insert_data()
+    # print("[insert over]")
