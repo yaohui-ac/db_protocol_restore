@@ -505,7 +505,7 @@ def line():
                         "value": 5
                     },
                     {
-                        "label": "drop",
+                        "label": "ddl",
                         "value": 6
                     },
                     {
@@ -801,8 +801,8 @@ def user_statistics():
     delete_count = query.filter(SQLRecord.query_type == 4).count()
     # 查询truncate语句使用次数
     truncate_count = query.filter(SQLRecord.query_type == 5).count()
-    # 查询drop语句使用次数
-    drop_count = query.filter(SQLRecord.query_type == 6).count()
+    # 查询ddl语句使用次数
+    ddl_count = query.filter(SQLRecord.query_type == 6).count()
     # 查询system_command语句使用次数
     system_command_count = query.filter(SQLRecord.query_type == 7).count()
     # 查询所有记录中最大的执行时间
@@ -977,7 +977,7 @@ def user_statistics():
         update_count=update_count,
         delete_count=delete_count,
         truncate_count=truncate_count,
-        drop_count=drop_count,
+        ddl_count=ddl_count,
         system_command_count=system_command_count,
         slowest_query=slowest_query,
         fastest_query=fastest_query,

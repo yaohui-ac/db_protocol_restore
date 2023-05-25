@@ -56,7 +56,7 @@ class SQLRecord(db.Model):
             3: "update",
             4: "delete",
             5: "truncate",
-            6: "drop",
+            6: "ddl",
             7: "system_command"
         }
         return query_type_map.get(self.query_type, "unknown")

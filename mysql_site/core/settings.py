@@ -10,7 +10,7 @@ class Settings(object):
     PROJECT_VERSION = '1.0.0'
 
     # 项目描述
-    PROJECT_DESCRIPTION = '物业管理系统'
+    PROJECT_DESCRIPTION = '网络报文还原系统'
 
     # POSTGRESQL数据库配置
     POSTGRESQL_HOST = os.environ.get('POSTGRESQL_HOST', '127.0.0.1')
