@@ -15,7 +15,7 @@ import (
 	"golang.org/x/net/bpf"
 )
 
-func initEthernetHandlerFromPacp() (pcapgoHandler *pcapgo.EthernetHandle) {
+func initEthernetHandlerFromPcap() (pcapgoHandler *pcapgo.EthernetHandle) {
 	pcapgoHandler, err := pcapgo.NewEthernetHandle(DeviceName)
 	if err != nil {
 		panic(fmt.Sprintf("cannot open network interface %s <-- %s", DeviceName, err.Error()))
@@ -51,7 +51,7 @@ func initEthernetHandlerFromPacp() (pcapgoHandler *pcapgo.EthernetHandle) {
 }
 
 func dealEachTCPIPPacket(dealTCPIPPacket func(tcpIPPkt *TCPIPPair)) {
-	handler := initEthernetHandlerFromPacp()
+	handler := initEthernetHandlerFromPcap()
 	//	fmt.Println("[well begin]")
 	defer func() {
 		fmt.Println("pcap handle close")
