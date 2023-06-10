@@ -43,7 +43,7 @@ type PcapHandler interface {
 
 func NewNetworkCard() (nc *networkCard) {
 	// init device
-	util.Log_Info("[Net Card] Device: %v Port: %v\n", DeviceName, snifferPort)
+	util.Log_Info("[Net Card] Device: %v Port: %v", DeviceName, snifferPort)
 	return &networkCard{
 		name:       DeviceName,
 		listenPort: snifferPort,

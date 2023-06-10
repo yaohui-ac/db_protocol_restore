@@ -12,6 +12,7 @@ const (
 	Default_sql_capture_rate = 1.0
 	Default_sql_buffer_len   = 10
 	Default_sql_buffer_timer = 1 * time.Minute
+	Default_log_location     = "stdout"
 )
 
 ///==========================================
