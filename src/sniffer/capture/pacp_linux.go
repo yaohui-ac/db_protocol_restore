@@ -52,19 +52,19 @@ func initEthernetHandlerFromPacp() (pcapgoHandler *pcapgo.EthernetHandle) {
 
 func dealEachTCPIPPacket(dealTCPIPPacket func(tcpIPPkt *TCPIPPair)) {
 	handler := initEthernetHandlerFromPacp()
-	fmt.Println("[well begin]")
+	//	fmt.Println("[well begin]")
 	defer func() {
 		fmt.Println("pcap handle close")
 		handler.Close()
 	}()
 
 	for {
-		fmt.Println("[In Loop]")
+
 		var ci gopacket.CaptureInfo
 		data, ci, err := handler.ZeroCopyReadPacketData()
-		fmt.Println("[In Loop 1]")
+
 		if err == pcap.NextErrorTimeoutExpired {
-			fmt.Println("[time out]")
+
 			continue
 		}
 		if err != nil {
@@ -77,15 +77,15 @@ func dealEachTCPIPPacket(dealTCPIPPacket func(tcpIPPkt *TCPIPPair)) {
 		packet := gopacket.NewPacket(data, layers.LayerTypeEthernet, gopacket.NoCopy)
 		m := packet.Metadata()
 		m.CaptureInfo = ci
-		fmt.Println("[In Loop 2]")
+
 		tcpPkt, ok := packet.TransportLayer().(*layers.TCP)
 		if !ok {
-			fmt.Println("not ok")
+
 			continue
 		}
 
 		ipLayer := packet.NetworkLayer()
-		fmt.Println("[In Loop 3]")
+
 		if ipLayer == nil {
 			fmt.Println("no ip layer found in package")
 			log.Error("no ip layer found in package")
@@ -105,14 +105,11 @@ func dealEachTCPIPPacket(dealTCPIPPacket func(tcpIPPkt *TCPIPPair)) {
 				dstIP = realIPLayer.DstIP.String()
 			}
 		}
-		fmt.Printf("src ip:%v dest ip%v\n", srcIP, dstIP)
-
 		tcpipPair := &TCPIPPair{
 			srcIP:  srcIP,
 			dstIP:  dstIP,
 			tcpPkt: tcpPkt,
 		}
-		fmt.Println("begin deal tcp-ip pair")
 		dealTCPIPPacket(tcpipPair)
 	}
 }

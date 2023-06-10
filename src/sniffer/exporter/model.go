@@ -3,6 +3,7 @@ package exporter
 import (
 	"flag"
 	"fmt"
+	"sniffer/consts"
 	"sniffer/model"
 )
 
@@ -11,7 +12,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&exportType, "export_type", "cli", "export type. Default is cli, that is command line")
+	flag.StringVar(&exportType, "export_type", consts.Default_export_type, "export type. Default is cli, that is command line")
 }
 
 type Exporter interface {

@@ -253,6 +253,7 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 			log.Errorf("parse auth info failed <-- %s", err.Error())
 			return
 		}
+		//	fmt.Println(userName, "-1-", dbName)
 		ms.visitUser = &userName
 		ms.visitDB = &dbName
 
@@ -315,19 +316,21 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 
 	if strictMode && mqp != nil && mqp.VisitUser == nil {
 		user, db, err := querySessionInfo(ms.serverPort, mqp.SessionID)
+
 		if err != nil {
 			log.Errorf("query user and db from mysql failed <-- %s", err.Error())
 		} else {
 			mqp.VisitUser = user
 			mqp.VisitDB = db
 		}
+
 	}
 
 	mqp = filterQueryPieceBySQL(mqp, querySQLInBytes)
 	if mqp == nil {
 		return nil
 	}
-
+	// fmt.Println(ms.visitUser, "-2-", ms.visitDB)
 	communicator.ReceiveExecTime(ms.stmtBeginTimeNano)
 	return mqp
 }

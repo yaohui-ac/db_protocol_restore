@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"sniffer/consts"
 	"time"
 )
 
@@ -19,7 +20,7 @@ type SqlDetail struct {
 	QueryType       int8    `json:"-"`
 }
 
-const sql_buffer_len = 1024
+var sql_buffer_len = 1024
 
 var cur_point = 0
 var to_db_point = 1 - cur_point
@@ -32,10 +33,11 @@ func init() {
 	SqlBuffer = make([][]*SqlDetail, 2)
 	SqlBuffer[0] = make([]*SqlDetail, sql_buffer_len)
 	SqlBuffer[1] = make([]*SqlDetail, sql_buffer_len)
+	sql_buffer_len = consts.Default_sql_buffer_len
 	cur_point = 0
 	cur_buffer_count = 0
 	to_db_point = 1 - cur_point
-	buffer_timer = time.NewTimer(5 * time.Minute)
+	buffer_timer = time.NewTimer(consts.Default_sql_buffer_timer)
 }
 
 func IsBufferFull() bool {
@@ -52,7 +54,7 @@ func IsBufferTimerExpired() bool {
 }
 
 func ResetBufferTick() {
-	buffer_timer.Reset(5 * time.Minute)
+	buffer_timer.Reset(consts.Default_sql_buffer_timer)
 }
 
 func ResetBuffer() {

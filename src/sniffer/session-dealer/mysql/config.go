@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"regexp"
+	"sniffer/consts"
 	"sniffer/util"
 )
 
@@ -24,10 +25,10 @@ var (
 )
 
 func init() {
-	flag.BoolVar(&strictMode, "strict_mode", false, "strict mode. Default is false")
-	flag.StringVar(&adminUser, "admin_user", "", "admin user name. When set strict mode, must set admin user to query session info")
-	flag.StringVar(&adminPasswd, "admin_passwd", "", "admin user passwd. When use strict mode, must set admin user to query session info")
-	flag.IntVar(&MaxMySQLPacketLen, "max_packet_length", 128*1024, "max mysql packet length. Default is 128 * 1024")
+	flag.BoolVar(&strictMode, "strict_mode", consts.Is_strict_mode, "strict mode. Default is false")
+	flag.StringVar(&adminUser, "admin_user", consts.Admin_User_Name, "admin user name. When set strict mode, must set admin user to query session info")
+	flag.StringVar(&adminPasswd, "admin_passwd", consts.Admin_Passwd, "admin user passwd. When use strict mode, must set admin user to query session info")
+	flag.IntVar(&MaxMySQLPacketLen, "max_packet_length", consts.MaxMySQLPacketLen, "max mysql packet length. Default is 128 * 1024")
 }
 
 func PrepareEnv() {

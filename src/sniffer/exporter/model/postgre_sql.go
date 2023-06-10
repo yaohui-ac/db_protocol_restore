@@ -58,7 +58,7 @@ func BufferDetailToDBDetail(s *SqlDetail) *db_sql_detail {
 	db_detail.TargetPort = s.TargetPort
 	db_detail.DatabaseNameStr = s.DatabaseNameStr
 	db_detail.ExecTime = s.ExecTime
-	db_detail.QueryTime = time.Unix(int64(s.QueryTime), 0)
+	db_detail.QueryTime = time.Unix(int64(s.QueryTime/1000), 0)
 
 	query_type := GetDBDetailQueryType(db_detail.SqlText)
 	db_detail.QueryType = query_type.Int8()
@@ -81,6 +81,6 @@ func FlashToDB(buffer []*SqlDetail) {
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
-
+	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>\nFlash to DB done\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
 	return
 }

@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/blastrain/vitess-sqlparser/sqlparser"
 )
@@ -9,6 +10,12 @@ import (
 func GetDBDetailQueryType(sql_text string) SqlType {
 	// words := strings.Fields(sql_text)
 	// query_type_str := strings.ToLower(words[0])
+	fmt.Println(sql_text)
+	sql_text = strings.Trim(sql_text, " ")
+	if strings.HasPrefix(sql_text, "show") {
+		return SYS_COMMAND_TYPE
+	}
+
 	stmt, err := sqlparser.Parse(sql_text)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
@@ -24,33 +31,19 @@ func GetDBDetailQueryType(sql_text string) SqlType {
 		return DELETE_TYPE
 	case (*sqlparser.TruncateTable):
 		return TRUNCATE_TYPE
-	case (*sqlparser.DDL):
+	case (*sqlparser.DDL), (*sqlparser.CreateTable):
 		return DDL_TYPE
-	case (*sqlparser.Use):
-		return SYS_COMMAND_TYPE
 	default:
-		panic("Invalid Sql Text")
+		return SYS_COMMAND_TYPE
 	}
-
-	// switch query_type_str {
-	// case "select":
-	// 	return SELECT_TYPE
-	// case "insert":
-	// 	return INSERT_TYPE
-	// case "update":
-	// 	return UPDATE_TYPE
-	// case "delete":
-	// 	return DELETE_TYPE
-	// case "truncate":
-	// 	return TRUNCATE_TYPE
-	// case "use":
-	// 	return SYS_COMMAND_TYPE
-	// default:
-	// 	return DDL_TYPE
-	// }
 
 }
 func GetTableName(sql_text string, query_type SqlType) string {
+	fmt.Println(sql_text)
+	sql_text = strings.Trim(sql_text, " ")
+	if strings.HasPrefix(sql_text, "show") {
+		return ""
+	}
 	stmt, err := sqlparser.Parse(sql_text)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
@@ -71,10 +64,17 @@ func GetTableName(sql_text string, query_type SqlType) string {
 	case TRUNCATE_TYPE:
 		return stmt.(*sqlparser.TruncateTable).Table.Name.String()
 	case DDL_TYPE:
-		return stmt.(*sqlparser.DDL).Table.Name.String()
+		if _, ok := stmt.(*sqlparser.DDL); ok {
+			return stmt.(*sqlparser.DDL).Table.Name.String()
+		}
+		if _, ok := stmt.(*sqlparser.CreateTable); ok {
+			return stmt.(*sqlparser.CreateTable).Table.Name.String()
+		}
 	case SYS_COMMAND_TYPE:
 		return ""
 	default:
+
 		panic("invalid sql type")
 	}
+	return ""
 }

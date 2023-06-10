@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"net"
 	"sniffer/communicator"
+	"sniffer/consts"
 	"sniffer/model"
 	sd "sniffer/session-dealer"
 	"strconv"
@@ -27,8 +28,8 @@ var (
 )
 
 func init() {
-	flag.StringVar(&DeviceName, "interface", "eth0", "network device name. Default is eth0")
-	flag.IntVar(&snifferPort, "port", 3306, "sniffer port. Default is 3306")
+	flag.StringVar(&DeviceName, "interface", consts.Default_listen_interface, "network device name. Default is eth0")
+	flag.IntVar(&snifferPort, "port", consts.Default_listen_port, "sniffer port. Default is 3306")
 	// flag.BoolVar(&inParallel, "in_parallel", false, "if capture and deal package in parallel. Default is false")
 }
 
@@ -67,7 +68,7 @@ func (nc *networkCard) listenNormal() {
 			// deal FIN packet
 			if tcpPkt.FIN {
 				nc.parseTCPPackage(srcIP, dstIP, tcpPkt, nil)
-				fmt.Printf("[FIN]\n")
+				// fmt.Printf("[FIN]\n")
 				return
 			}
 
@@ -149,7 +150,7 @@ func (nc *networkCard) parseTCPPackage(srcIP, dstIP string, tcpPkt *layers.TCP, 
 			clientIP = &srcIP
 			clientPort = srcPort
 		}
-		fmt.Printf("source port: %v\n", clientPort)
+		//	fmt.Printf("source port: %v\n", clientPort)
 		// deal mysql server response
 		err = readToServerPackage(clientIP, clientPort, &dstIP, tcpPkt, nc.receiver)
 		if err != nil {

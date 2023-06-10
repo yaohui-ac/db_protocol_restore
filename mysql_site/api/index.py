@@ -48,7 +48,7 @@ def index():
     #order_by 0 ID升序 1 ID降序 2 query_time升序 3 query_time降序 4 exec_time升序 5 exec_time降序
     order_by = request.args.get("order_by", 0, type=int)
 
-    print(starttime, endtime, query_type)
+    print("start-time:",starttime,"end-time:", endtime, "query-type:", query_type)
 
     # query
     query = SQLRecord.query
@@ -176,7 +176,7 @@ def index():
                         "value": 5
                     },
                     {
-                        "label": "drop",
+                        "label": "ddl",
                         "value": 6
                     },
                     {
@@ -866,7 +866,7 @@ def user_statistics():
                         "value": 5
                     },
                     {
-                        "label": "drop",
+                        "label": "ddl",
                         "value": 6
                     },
                     {
@@ -966,7 +966,7 @@ def user_statistics():
 
     return render_template(
         'user_statistics.html',
-        title="统计:所有用户" if username == None else f"用户统计:{username}",
+        title="统计:所有用户" if username == None else f"用户统计 {username}",
         username=username,
         db_name=db_name,
         db_query_count=db_query_count,
@@ -1513,7 +1513,7 @@ def export_csv():
     records = query.all()
 
     # 导出文件名 当前服务器时间+用户名
-    filename = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{current_user.username}.csv"
+    filename = f"{datetime.now().strftime('%Y%m%d%H:%M:%S')}_{current_user.username}.csv"
 
     # 导出文件路径
     filepath = os.path.join(settings.STATIC_FOLDER, filename)
