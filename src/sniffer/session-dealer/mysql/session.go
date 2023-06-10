@@ -5,12 +5,11 @@ import (
 	"sync"
 	"time"
 
-	"sniffer/communicator"
+	"sniffer/consts"
 	"sniffer/model"
+	"sniffer/util"
 
 	"github.com/pingcap/tidb/util/hack"
-
-	log "github.com/golang/glog"
 )
 
 type MysqlSession struct {
@@ -157,8 +156,7 @@ func (ms *MysqlSession) readFromClient(seqID int64, bytes []byte) {
 		ms.expectReceiveSize = extractMysqlPayloadSize(bytes[:4])
 		// ignore too big mysql packet
 		if ms.expectReceiveSize >= MaxMySQLPacketLen {
-			fmt.Printf("expect receive size is bigger than max deal size: %d\n", MaxMySQLPacketLen)
-			log.Infof("expect receive size is bigger than max deal size: %d", MaxMySQLPacketLen)
+			util.Log_Debug("expect receive size is bigger than max deal size: %d\n", MaxMySQLPacketLen)
 			return
 		}
 
@@ -174,8 +172,7 @@ func (ms *MysqlSession) readFromClient(seqID int64, bytes []byte) {
 		ms.endSeqID = seqID
 
 		if int64(ms.expectReceiveSize) < int64(len(contents)) {
-			fmt.Printf("receive invalid mysql packet\n")
-			log.Warning("receive invalid mysql packet")
+			util.Log_Debug("receive invalid mysql packet")
 			return
 		}
 
@@ -190,16 +187,13 @@ func (ms *MysqlSession) readFromClient(seqID int64, bytes []byte) {
 		}
 
 		if ms.beginSeqID == -1 {
-			fmt.Println("cover range is empty")
-			log.Info("cover range is empty")
+			util.Log_Debug("cover range is empty")
 			return
 		}
 
 		if seqID < ms.beginSeqID {
 			// out date packet
-			fmt.Printf("in session %s get outdate package with Seq:%d, beginSeq:%d\n",
-				*ms.connectionID, seqID, ms.beginSeqID)
-			log.Infof("in session %s get outdate package with Seq:%d, beginSeq:%d",
+			util.Log_Debug("in session %s get outdate package with Seq:%d, beginSeq:%d",
 				*ms.connectionID, seqID, ms.beginSeqID)
 			return
 		}
@@ -207,8 +201,7 @@ func (ms *MysqlSession) readFromClient(seqID int64, bytes []byte) {
 		seqOffset := seqID - ms.beginSeqID
 		if seqOffset+contentSize > int64(len(ms.cachedStmtBytes)) {
 			// not in a normal mysql packet
-			fmt.Println("receive an unexpect packet")
-			log.Info("receive an unexpect packet")
+			util.Log_Debug("receive an unexpect packet")
 			ms.clear()
 			return
 		}
@@ -233,14 +226,12 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 	}
 
 	if !ms.checkFinish() {
-		fmt.Println("receive a not complete cover")
-		log.Warning("receive a not complete cover")
+		util.Log_Debug("receive a not complete cover")
 		return
 	}
 
 	if len(ms.cachedStmtBytes) > maxSQLLen {
-		fmt.Println("sql in cache is too long, ignore it")
-		log.Warning("sql in cache is too long, ignore it")
+		util.Log_Debug("sql in cache is too long, ignore it")
 		return
 	}
 
@@ -249,8 +240,7 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 	if IsAuth(ms.cachedStmtBytes[0]) {
 		userName, dbName, err := parseAuthInfo(ms.cachedStmtBytes)
 		if err != nil {
-			fmt.Printf("parse auth info failed <-- %s\n", err.Error())
-			log.Errorf("parse auth info failed <-- %s", err.Error())
+			util.Log_Error("parse auth info failed <-- %s\n", err.Error())
 			return
 		}
 		//	fmt.Println(userName, "-1-", dbName)
@@ -287,8 +277,7 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 			querySQL := hack.String(querySQLInBytes)
 			mqp.QuerySQL = &querySQL
 			ms.cachedPrepareStmt[ms.prepareInfo.prepareStmtID] = querySQLInBytes
-			fmt.Printf("prepare statement %s, get id:%d\n", querySQL, ms.prepareInfo.prepareStmtID)
-			log.Infof("prepare statement %s, get id:%d", querySQL, ms.prepareInfo.prepareStmtID)
+			util.Log_Debug("prepare statement %s, get id:%d\n", querySQL, ms.prepareInfo.prepareStmtID)
 
 		case ComStmtExecute:
 			prepareStmtID := bytesToInt(ms.cachedStmtBytes[1:5])
@@ -300,14 +289,12 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 			}
 			querySQL := hack.String(querySQLInBytes)
 			mqp.QuerySQL = &querySQL
-
-			// log.Debugf("execute prepare statement:%d", prepareStmtID)
+			util.Log_Debug("execute prepare statement:%d", prepareStmtID)
 
 		case ComStmtClose:
 			prepareStmtID := bytesToInt(ms.cachedStmtBytes[1:5])
 			delete(ms.cachedPrepareStmt, prepareStmtID)
-			fmt.Printf("remove prepare statement:%d\n", prepareStmtID)
-			log.Infof("remove prepare statement:%d", prepareStmtID)
+			util.Log_Debug("remove prepare statement:%d", prepareStmtID)
 
 		default:
 			return
@@ -318,7 +305,7 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 		user, db, err := querySessionInfo(ms.serverPort, mqp.SessionID)
 
 		if err != nil {
-			log.Errorf("query user and db from mysql failed <-- %s", err.Error())
+			util.Log_Error("query user and db from mysql failed <-- %s", err.Error())
 		} else {
 			mqp.VisitUser = user
 			mqp.VisitDB = db
@@ -330,8 +317,6 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 	if mqp == nil {
 		return nil
 	}
-	// fmt.Println(ms.visitUser, "-2-", ms.visitDB)
-	communicator.ReceiveExecTime(ms.stmtBeginTimeNano)
 	return mqp
 }
 
@@ -355,5 +340,5 @@ func (ms *MysqlSession) composeQueryPiece() (mqp *model.PooledMysqlQueryPiece) {
 	clientPort := ms.clientPort
 	return model.NewPooledMysqlQueryPiece(
 		ms.connectionID, clientIP, ms.visitUser, ms.visitDB, ms.serverIP,
-		clientPort, ms.serverPort, communicator.GetMysqlCapturePacketRate(), ms.stmtBeginTimeNano)
+		clientPort, ms.serverPort, consts.Default_sql_capture_rate, ms.stmtBeginTimeNano)
 }

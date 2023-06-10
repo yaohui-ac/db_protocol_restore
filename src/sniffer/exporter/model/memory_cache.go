@@ -2,7 +2,7 @@ package model
 
 import (
 	"encoding/json"
-	"fmt"
+	"sniffer/util"
 	"strings"
 )
 
@@ -16,7 +16,7 @@ func HandleDBString(str string) {
 	var sql_detail SqlDetail
 	err := json.Unmarshal([]byte(str), &sql_detail)
 	if err != nil {
-		fmt.Printf("%+v\n", err)
+		util.Log_Error("%+v\n", err)
 		return
 	}
 	if IsBufferFull() || IsBufferTimerExpired() {

@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"sniffer/model"
+	"sniffer/util"
 
 	"github.com/Shopify/sarama"
 	log "github.com/golang/glog"
@@ -57,8 +58,7 @@ func checkParams() {
 	default:
 		panic(fmt.Sprintf("cannot support kafka compress type: %s", compress))
 	}
-
-	fmt.Printf("kafka message compress type: %s", compress)
+	util.Log_Info("kafka message compress type: %s", compress)
 	params := make(map[string]string)
 	params["kafka-server"] = kafkaServer
 	params["kafka-group-id"] = kafkaGroupID
@@ -113,12 +113,11 @@ func NewKafkaExporter() (ke *kafkaExporter) {
 func (ke *kafkaExporter) Export(qp model.QueryPiece) (err error) {
 	defer func() {
 		if err != nil {
-			log.Errorf("export with kafka failed <-- %s", err.Error())
+			util.Log_Error("export with kafka failed <-- %s", err.Error())
 		}
 	}()
 
 	if qp.NeedSyncSend() {
-		// log.Debugf("deal ddl: %s\n", *qp.String())
 
 		msg := &sarama.ProducerMessage{
 			Topic: ke.syncTopic,
@@ -130,12 +129,10 @@ func (ke *kafkaExporter) Export(qp model.QueryPiece) (err error) {
 		}
 
 	} else {
-		// log.Debugf("deal non ddl: %s", *qp.String())
 		msg := &sarama.ProducerMessage{
 			Topic: ke.asyncTopic,
 			Value: sarama.ByteEncoder(qp.Bytes()),
 		}
-
 		ke.asyncProducer.Input() <- msg
 	}
 

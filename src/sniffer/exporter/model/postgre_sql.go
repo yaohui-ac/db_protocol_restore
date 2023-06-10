@@ -2,7 +2,7 @@ package model
 
 import (
 	"context"
-	"fmt"
+	"sniffer/util"
 	"time"
 
 	pg "github.com/go-pg/pg/v10"
@@ -41,7 +41,7 @@ func TestDBRunning(db *pg.DB) {
 	ctx := context.Background()
 
 	if err := db.Ping(ctx); err != nil {
-		fmt.Println("test ping failed")
+		util.Log_Error("test ping failed")
 		panic(err)
 	}
 
@@ -79,8 +79,8 @@ func FlashToDB(buffer []*SqlDetail) {
 
 	_, err := conn.Model(&flash_db_list).Insert()
 	if err != nil {
-		fmt.Printf("%+v\n", err)
+		util.Log_Error("%+v\n", err)
 	}
-	fmt.Println(">>>>>>>>>>>>>>>>>>>>>>>>>>\nFlash to DB done\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+	util.Log_Info("Flash To PosgreSQL DONE")
 	return
 }

@@ -10,7 +10,7 @@ import (
 func GetDBDetailQueryType(sql_text string) SqlType {
 	// words := strings.Fields(sql_text)
 	// query_type_str := strings.ToLower(words[0])
-	fmt.Println(sql_text)
+	//fmt.Println(sql_text)
 	sql_text = strings.Trim(sql_text, " ")
 	if strings.HasPrefix(sql_text, "show") {
 		return SYS_COMMAND_TYPE
@@ -39,9 +39,9 @@ func GetDBDetailQueryType(sql_text string) SqlType {
 
 }
 func GetTableName(sql_text string, query_type SqlType) string {
-	fmt.Println(sql_text)
+	// fmt.Println(sql_text)
 	sql_text = strings.Trim(sql_text, " ")
-	if strings.HasPrefix(sql_text, "show") {
+	if strings.HasPrefix(sql_text, "show") || strings.HasPrefix(sql_text, "SHOW") {
 		return ""
 	}
 	stmt, err := sqlparser.Parse(sql_text)

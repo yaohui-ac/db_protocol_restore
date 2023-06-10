@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"fmt"
+	"sniffer/util"
 
 	_ "github.com/go-sql-driver/mysql"
 	du "github.com/zr-hebo/util-db"
@@ -27,7 +28,7 @@ func querySessionInfo(snifferPort int, clientHost *string) (user, db *string, er
 	mysqlServer := expandLocalMysql(snifferPort)
 	querySQL := fmt.Sprintf(
 		"SELECT USER AS user, DB AS db FROM information_schema.processlist WHERE HOST='%s'", *clientHost)
-	// log.Debug(querySQL)
+	util.Log_Debug(querySQL)
 	queryRow, err := mysqlServer.QueryRow(querySQL)
 	if err != nil {
 		return

@@ -5,9 +5,9 @@ package capture
 
 import (
 	"fmt"
+	"sniffer/util"
 	"time"
 
-	log "github.com/golang/glog"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
@@ -46,15 +46,14 @@ func initEthernetHandlerFromPcap() (pcapgoHandler *pcapgo.EthernetHandle) {
 	}
 
 	_ = pcapgoHandler.SetCaptureLength(65536)
-	fmt.Printf("net package: %v\n", pcapgoHandler.LocalAddr())
+	util.Log_Debug("net package: %v\n", pcapgoHandler.LocalAddr())
 	return
 }
 
 func dealEachTCPIPPacket(dealTCPIPPacket func(tcpIPPkt *TCPIPPair)) {
 	handler := initEthernetHandlerFromPcap()
-	//	fmt.Println("[well begin]")
 	defer func() {
-		fmt.Println("pcap handle close")
+		util.Log_Info("pcap handle close")
 		handler.Close()
 	}()
 
@@ -68,8 +67,7 @@ func dealEachTCPIPPacket(dealTCPIPPacket func(tcpIPPkt *TCPIPPair)) {
 			continue
 		}
 		if err != nil {
-			log.Error(err.Error())
-			fmt.Printf("err:%v", err.Error())
+			util.Log_Error("err:%v", err.Error())
 			time.Sleep(time.Second * 3)
 			continue
 		}
@@ -87,8 +85,7 @@ func dealEachTCPIPPacket(dealTCPIPPacket func(tcpIPPkt *TCPIPPair)) {
 		ipLayer := packet.NetworkLayer()
 
 		if ipLayer == nil {
-			fmt.Println("no ip layer found in package")
-			log.Error("no ip layer found in package")
+			util.Log_Error("no ip layer found in package")
 			continue
 		}
 

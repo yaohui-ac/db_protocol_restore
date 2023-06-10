@@ -2,7 +2,6 @@ package exporter
 
 import (
 	"flag"
-	"fmt"
 	"sniffer/consts"
 	"sniffer/model"
 )
@@ -20,7 +19,6 @@ type Exporter interface {
 }
 
 func NewExporter() Exporter {
-	fmt.Printf("[Exporter] %v\n", exportType)
 	switch exportType {
 	case "cli":
 		return NewCliExporter()

@@ -1,8 +1,8 @@
 package exporter
 
 import (
-	"fmt"
 	"sniffer/model"
+	"sniffer/util"
 )
 
 type cliExporter struct {
@@ -13,6 +13,6 @@ func NewCliExporter() *cliExporter {
 }
 
 func (c *cliExporter) Export(qp model.QueryPiece) (err error) {
-	fmt.Println(*qp.String())
+	util.Log_Info(*qp.String())
 	return
 }

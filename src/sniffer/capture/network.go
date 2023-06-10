@@ -4,19 +4,17 @@ import (
 	"bufio"
 	"bytes"
 	"flag"
-	"fmt"
 	"math/rand"
 	"net"
-	"sniffer/communicator"
 	"sniffer/consts"
 	"sniffer/model"
 	sd "sniffer/session-dealer"
+	"sniffer/util"
 	"strconv"
 	"time"
 
 	pp "github.com/pires/go-proxyproto"
 
-	log "github.com/golang/glog"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 )
@@ -30,7 +28,6 @@ var (
 func init() {
 	flag.StringVar(&DeviceName, "interface", consts.Default_listen_interface, "network device name. Default is eth0")
 	flag.IntVar(&snifferPort, "port", consts.Default_listen_port, "sniffer port. Default is 3306")
-	// flag.BoolVar(&inParallel, "in_parallel", false, "if capture and deal package in parallel. Default is false")
 }
 
 // networkCard is network device
@@ -46,7 +43,7 @@ type PcapHandler interface {
 
 func NewNetworkCard() (nc *networkCard) {
 	// init device
-	fmt.Printf("[Net Card] Device: %v Port: %v\n", DeviceName, snifferPort)
+	util.Log_Info("[Net Card] Device: %v Port: %v\n", DeviceName, snifferPort)
 	return &networkCard{
 		name:       DeviceName,
 		listenPort: snifferPort,
@@ -68,13 +65,11 @@ func (nc *networkCard) listenNormal() {
 			// deal FIN packet
 			if tcpPkt.FIN {
 				nc.parseTCPPackage(srcIP, dstIP, tcpPkt, nil)
-				// fmt.Printf("[FIN]\n")
 				return
 			}
-
 			// deal auth packet
 			if sd.IsAuthPacket(tcpPkt.Payload) {
-				fmt.Printf("[AuthPacket]\n")
+				util.Log_Debug("src port: %v dest port: %v IsAuthPacket", tcpPkt.SrcPort, tcpPkt.DstPort)
 				authHeader, _ := pp.Read(bufio.NewReader(bytes.NewReader(tcpPkt.Payload)))
 				nc.parseTCPPackage(srcIP, dstIP, tcpPkt, authHeader)
 				return
@@ -94,7 +89,7 @@ func (nc *networkCard) listenNormal() {
 		aliveCounter := 0
 		dealTCPIPPacket := func(tcpIPPkt *TCPIPPair) {
 			// capture packets according to a certain probability
-			capturePacketRate := communicator.GetTCPCapturePacketRate()
+			capturePacketRate := consts.Default_tcp_capture_rate
 			if capturePacketRate <= 0 {
 				time.Sleep(time.Second * 1)
 				aliveCounter += 1
@@ -118,7 +113,7 @@ func (nc *networkCard) parseTCPPackage(srcIP, dstIP string, tcpPkt *layers.TCP, 
 	var err error
 	defer func() {
 		if err != nil {
-			fmt.Printf("parse TCP package failed <-- %s", err.Error())
+			util.Log_Error("parse TCP package failed <-- %s", err.Error())
 		}
 	}()
 
@@ -138,11 +133,11 @@ func (nc *networkCard) parseTCPPackage(srcIP, dstIP string, tcpPkt *layers.TCP, 
 			clientIP = &clientIPContent
 			_, source_port, err := net.SplitHostPort(clientIPContent)
 			if err != nil {
-				fmt.Printf("Err:%v", err)
+				util.Log_Error("Err:%v", err)
 			}
 			source_port_int, err := strconv.Atoi(source_port)
 			if err != nil {
-				fmt.Printf("Err:%v", err)
+				util.Log_Error("Err:%v", err)
 			}
 			clientPort = int(source_port_int)
 
@@ -172,8 +167,7 @@ func readFromServerPackage(
 	clientIP *string, clientPort int, tcpPkt *layers.TCP) (err error) {
 	defer func() {
 		if err != nil {
-			fmt.Printf("read Mysql package send from mysql server to client failed <-- %s", err.Error())
-			log.Error("read Mysql package send from mysql server to client failed <-- %s", err.Error())
+			util.Log_Error("read Mysql package send from mysql server to client failed <-- %s", err.Error())
 		}
 	}()
 
@@ -208,8 +202,7 @@ func readToServerPackage(
 	defer func() {
 
 		if err != nil {
-			fmt.Printf("read package send from client to mysql server failed <-- %s", err.Error())
-			log.Error("read package send from client to mysql server failed <-- %s", err.Error())
+			util.Log_Error("read package send from client to mysql server failed <-- %s", err.Error())
 		}
 	}()
 
@@ -221,8 +214,7 @@ func readToServerPackage(
 			session.Close()
 			delete(sessionPool, *sessionKey)
 		}
-		fmt.Printf("close connection from %s", *sessionKey)
-		log.Infof("close connection from %s", *sessionKey)
+		util.Log_Debug("close connection from %s", *sessionKey)
 		return
 	}
 

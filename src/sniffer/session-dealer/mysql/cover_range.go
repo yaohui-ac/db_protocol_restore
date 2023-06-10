@@ -1,5 +1,7 @@
 package mysql
 
+import "sniffer/util"
+
 // coverageNode record tcp package begin and end seq id
 type coverageNode struct {
 	begin int64
@@ -9,7 +11,7 @@ type coverageNode struct {
 	crp  *coveragePool
 }
 
-func newCoverage(begin, end int64) (*coverageNode) {
+func newCoverage(begin, end int64) *coverageNode {
 	return &coverageNode{
 		begin: begin,
 		end:   end,
@@ -34,7 +36,7 @@ func NewCoverRanges() *coverRanges {
 }
 
 func (crs *coverRanges) clear() {
-	currRange := crs.head.next;
+	currRange := crs.head.next
 	for currRange != nil {
 		node := currRange
 		currRange = currRange.next
@@ -45,7 +47,7 @@ func (crs *coverRanges) clear() {
 
 func (crs *coverRanges) addRange(node *coverageNode) {
 	// insert range in asc order
-	var currRange = crs.head;
+	var currRange = crs.head
 	for currRange != nil && currRange.next != nil {
 		checkRange := currRange.next
 		if checkRange != nil && checkRange.begin >= node.begin {
@@ -99,7 +101,7 @@ func (crp *coveragePool) NewCoverage(begin, end int64) (cn *coverageNode) {
 }
 
 func (crp *coveragePool) Enqueue(cn *coverageNode) {
-	// log.Debugf("coveragePool enqueue: %d", len(crp.queue))
+	util.Log_Debug("coveragePool enqueue: %d", len(crp.queue))
 	if cn == nil {
 		return
 	}
@@ -114,7 +116,7 @@ func (crp *coveragePool) Enqueue(cn *coverageNode) {
 }
 
 func (crp *coveragePool) Dequeue() (cn *coverageNode) {
-	// log.Debugf("coveragePool dequeue: %d", len(crp.queue))
+	util.Log_Debug("coveragePool dequeue: %d", len(crp.queue))
 
 	defer func() {
 		cn.begin = -1

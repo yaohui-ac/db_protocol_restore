@@ -1,9 +1,9 @@
 package exporter
 
 import (
-	"fmt"
 	md "sniffer/exporter/model"
 	"sniffer/model"
+	"sniffer/util"
 )
 
 type postgreExporter struct {
@@ -13,7 +13,7 @@ func NewPostgreExporter() *postgreExporter {
 	return &postgreExporter{}
 }
 func (c *postgreExporter) Export(qp model.QueryPiece) (err error) {
-	fmt.Println(*qp.String())
+	util.Log_Info(*qp.String())
 	md.HandleDBString(*qp.String())
 	return
 }
