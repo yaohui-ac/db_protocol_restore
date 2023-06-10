@@ -95,15 +95,21 @@ while true
     do
     execute_create_table
     echo "create table done!"
+
     execute_insert_data
     echo "insert data done!"
+
     execute_update_data
     echo "update data done!"
+
     execute_delete_data
     echo "delete data done!"
+
     execute_truncate_table
     echo "truncate table done!"
+
     execute_drop_table
     echo "drop table done!"
+    
     sleep 2
     done
