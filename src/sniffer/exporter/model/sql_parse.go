@@ -73,7 +73,6 @@ func GetTableName(sql_text string, query_type SqlType) string {
 	case SYS_COMMAND_TYPE:
 		return ""
 	default:
-
 		panic("invalid sql type")
 	}
 	return ""

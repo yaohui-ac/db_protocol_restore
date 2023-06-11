@@ -41,7 +41,7 @@ const (
 )
 
 const (
-	maxSQLLen = 5*1024*1024
+	maxSQLLen = 5 * 1024 * 1024
 )
 
 // Client information.
@@ -70,12 +70,10 @@ const (
 	ClientPluginAuthLenencClientData
 )
 
-
 // Auth name information.
 const (
 	AuthName = "mysql_native_password"
 )
-
 
 // MySQL database and tables.
 const (
@@ -97,4 +95,11 @@ const (
 
 var (
 	ErrMalformPacket = errors.New("malform packet error")
+)
+
+const (
+	Capability_Flag_Len = 4
+	Max_Packet_Len      = 4
+	Character_Set_Len   = 1
+	Reserved_Len        = 23
 )

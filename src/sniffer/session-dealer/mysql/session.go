@@ -243,7 +243,6 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 			util.Log_Error("parse auth info failed <-- %s\n", err.Error())
 			return
 		}
-		//	fmt.Println(userName, "-1-", dbName)
 		ms.visitUser = &userName
 		ms.visitDB = &dbName
 
@@ -312,7 +311,7 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 		}
 
 	}
-
+	//ignore useless sql
 	mqp = filterQueryPieceBySQL(mqp, querySQLInBytes)
 	if mqp == nil {
 		return nil

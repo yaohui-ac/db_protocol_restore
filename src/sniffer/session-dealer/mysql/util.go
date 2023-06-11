@@ -9,7 +9,7 @@ import (
 func parseHandshakeResponseHeader(packet *handshakeResponse41, data []byte) (parsedBytes int, err error) {
 	// Ensure there are enough data to read:
 	// http://dev.mysql.com/doc/internals/en/connection-phase-packets.html#packet-Protocol::SSLRequest
-	if len(data) < 4+4+1+23 {
+	if len(data) < Capability_Flag_Len+MaxMySQLPacketLen+Character_Set_Len+Reserved_Len {
 		return 0, ErrMalformPacket
 	}
 
@@ -17,14 +17,14 @@ func parseHandshakeResponseHeader(packet *handshakeResponse41, data []byte) (par
 	// capability
 	capability := binary.LittleEndian.Uint32(data[:4])
 	packet.Capability = capability
-	offset += 4
+	offset += Capability_Flag_Len
 	// skip max packet size
-	offset += 4
+	offset += Max_Packet_Len
 	// charset, skip, if you want to use another charset, use set names
 	packet.Collation = data[offset]
-	offset++
-	// skip reserved 23[00]
-	offset += 23
+	offset += Character_Set_Len
+	// skip reserved
+	offset += Reserved_Len
 
 	return offset, nil
 }
@@ -32,7 +32,7 @@ func parseHandshakeResponseHeader(packet *handshakeResponse41, data []byte) (par
 // parseHandshakeResponseBody parse the HandshakeResponse (except the common header part).
 func parseHandshakeResponseBody(packet *handshakeResponse41, data []byte, offset int) (err error) {
 	defer func() {
-		// Check malformat packet cause out of range is disgusting, but don't panic!
+		// Check malformat packet cause out of range is disgusting
 		if r := recover(); r != nil {
 			err = ErrMalformPacket
 		}
@@ -44,7 +44,6 @@ func parseHandshakeResponseBody(packet *handshakeResponse41, data []byte, offset
 	if packet.Capability&ClientPluginAuthLenencClientData > 0 {
 		// MySQL client sets the wrong capability, it will set this bit even server doesn't
 		// support ClientPluginAuthLenencClientData.
-		// https://github.com/mysql/mysql-server/blob/5.7/sql-common/client.c#L3478
 		num, null, off := parseLengthEncodedInt(data[offset:])
 		offset += off
 		if !null {
