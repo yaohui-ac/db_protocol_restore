@@ -26,7 +26,7 @@ func get_caller_func_name_and_line() string {
 func Log_Debug(format string, a ...any) {
 	switch consts.Default_log_level {
 	case "debug":
-		log.Printf("["+get_caller_func_name_and_line()+"] [DEBUG] "+format+"\n", a...)
+		log.Printf("["+get_caller_func_name_and_line()+"] \033[1;34;43m[DEBUG]\033[0m "+format+"\n", a...)
 	default:
 		return
 	}
@@ -34,7 +34,7 @@ func Log_Debug(format string, a ...any) {
 func Log_Info(format string, a ...any) {
 	switch consts.Default_log_level {
 	case "debug", "info":
-		log.Printf("["+get_caller_func_name_and_line()+"] [INFO] "+format+"\n", a...)
+		log.Printf("["+get_caller_func_name_and_line()+"] \033[1;34;42m[INFO]\033[0m "+format+"\n", a...)
 	default:
 		return
 	}
@@ -44,7 +44,7 @@ func Log_Info(format string, a ...any) {
 func Log_Error(format string, a ...any) {
 	switch consts.Default_log_level {
 	case "debug", "info", "error":
-		log.Printf("["+get_caller_func_name_and_line()+"] [ERROR] "+format+"\n", a...)
+		log.Printf("["+get_caller_func_name_and_line()+"] \033[1;34;41m[ERROR]\033[0m"+format+"\n", a...)
 	default:
 		return
 	}

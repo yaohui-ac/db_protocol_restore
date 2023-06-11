@@ -3,7 +3,7 @@ package consts
 import "time"
 
 const (
-	Default_log_level        = "info"    // info debug error
+	Default_log_level        = "debug"   // info debug error
 	Default_export_type      = "postgre" //postgre cli
 	Default_service_type     = "mysql"
 	Default_listen_interface = "eth0"
