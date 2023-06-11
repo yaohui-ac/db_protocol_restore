@@ -1,15 +1,19 @@
 package mysql
 
+import "sniffer/util"
+
 // parseAuthInfo parse username, dbname from mysql client auth info
 func parseAuthInfo(data []byte) (userName, dbName string, err error) {
 	var resp handshakeResponse41
 	pos, err := parseHandshakeResponseHeader(&resp, data)
 	if err != nil {
+		util.Log_Error(err.Error())
 		return
 	}
 
 	// Read the remaining part of the packet.
 	if err = parseHandshakeResponseBody(&resp, data, pos); err != nil {
+		util.Log_Error(err.Error())
 		return
 	}
 

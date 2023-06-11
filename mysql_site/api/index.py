@@ -215,7 +215,7 @@ def index():
                         "label": "全部",
                         "value": ""
                     },
-                    *[
+                    *[ # 动态生成
                         {
                             "label": item[0],
                             "value": item[0]
@@ -227,8 +227,8 @@ def index():
             {
                 "name": "source_ip",
                 "type": "text",
-                "label": "来源IP",
-                "placeholder": "请输入来源IP",
+                "label": "客户端IP",
+                "placeholder": "请输入客户端IP",
                 "value": source_ip or ""
             },
             {
@@ -447,7 +447,7 @@ def line():
                 "name": "dimension",
                 "type": "select",
                 "label": "跨度",
-                "placeholder": "请选择跨度",
+                "placeholder": "请选择时间跨度",
                 "value": dimension,
                 "options": [
                     {
@@ -552,7 +552,8 @@ def line():
                         {
                             "label": table_name[0],
                             "value": table_name[0]
-                        } for table_name in SQLRecord.query.with_entities(SQLRecord.table_name_str).filter(SQLRecord.database_name_str == database_name_str).distinct()
+                        } for table_name in SQLRecord.query.with_entities(SQLRecord.table_name_str).\
+                        filter(SQLRecord.database_name_str == database_name_str).distinct()
                     ]
                 ],
                 "disabled": not database_name_str or database_name_str == ""
@@ -561,8 +562,8 @@ def line():
                 # 源IP
                 "name": "source_ip",
                 "type": "text",
-                "label": "源IP",
-                "placeholder": "请选择源IP",
+                "label": "客户端IP",
+                "placeholder": "请输入客户端IP",
                 "value": source_ip or "",
             }
         ],
@@ -578,7 +579,9 @@ def line():
 
     chart = {
         "method": "GET",
-        "url": url_for("line_data", username=username, endtime=endtime, dimension=dimension, query_type=query_type, database_name_str=database_name_str, table_name_str=table_name_str, source_ip=source_ip),
+        "url": url_for("line_data", username=username, endtime=endtime, dimension=dimension, 
+        query_type=query_type, database_name_str=database_name_str, 
+        table_name_str=table_name_str, source_ip=source_ip),
     }
 
     return render_template(
@@ -669,12 +672,12 @@ def line_data():
         for i in range((datetime.strptime(endtime, '%Y-%m-%d') - datetime.strptime(starttime, '%Y-%m-%d')).days + 1):
 
             for j in range(24):
-                time_list.append((datetime.strptime(starttime, '%Y-%m-%d') + timedelta(days=i, hours=j)).strftime('%Y-%m-%d %H'))
+                time_list.append((datetime.strptime(starttime, '%Y-%m-%d') + timedelta(days=i, hours=j)).strftime('%Y-%m-%d:%H'))
 
     # 查询
     # print(time_list)
     data = {
-        item:0 for item in time_list
+        item : 0 for item in time_list
     }
     # 按时间分组
     for item in query.all():
@@ -682,7 +685,7 @@ def line_data():
         if dimension:
             t_time = item.query_time.strftime('%Y-%m-%d')
         else:
-            t_time = item.query_time.strftime('%Y-%m-%d %H')
+            t_time = item.query_time.strftime('%Y-%m-%d:%H')
         data[t_time] += 1
             
     # 生成图表
@@ -701,7 +704,7 @@ def line_data():
     )
     line.add_xaxis(xaxis_data=x_data)
     line.add_yaxis(
-        series_name="",
+        series_name="查询次数",
         y_axis=y_data,
         symbol="emptyCircle",
         is_symbol_show=True,
@@ -924,8 +927,8 @@ def user_statistics():
             {
                 "type": "text",
                 "name": "source_ip",
-                "label": "源IP",
-                "placeholder": "请输入源IP",
+                "label": "客户端IP",
+                "placeholder": "请输入客户端IP",
                 "value": source_ip if source_ip else ""
             }
         ],
@@ -960,7 +963,7 @@ def user_statistics():
     # truncate语句统计查询url 跳转至index页面 并设置查询类型为truncate
     truncate_statistics_url = url_for('index', username=username, starttime=starttime, endtime=endtime, query_type=5, database_name_str=database_name_str, table_name_str=table_name_str, source_ip=source_ip)
     # drop语句统计查询url 跳转至index页面 并设置查询类型为drop
-    drop_statistics_url = url_for('index', username=username, starttime=starttime, endtime=endtime, query_type=6, database_name_str=database_name_str, table_name_str=table_name_str, source_ip=source_ip)
+    ddl_statistics_url = url_for('index', username=username, starttime=starttime, endtime=endtime, query_type=6, database_name_str=database_name_str, table_name_str=table_name_str, source_ip=source_ip)
     # 系统命令统计查询url 跳转至index页面 并设置查询类型为system_command
     system_command_statistics_url = url_for('index', username=username, starttime=starttime, endtime=endtime, query_type=7, database_name_str=database_name_str, table_name_str=table_name_str, source_ip=source_ip)
 
@@ -991,7 +994,7 @@ def user_statistics():
         update_statistics_url=update_statistics_url,
         delete_statistics_url=delete_statistics_url,
         truncate_statistics_url=truncate_statistics_url,
-        drop_statistics_url=drop_statistics_url,
+        ddl_statistics_url=ddl_statistics_url,
         system_command_statistics_url=system_command_statistics_url,
     )
 
@@ -1023,10 +1026,13 @@ def database_statistics():
         query = query.filter(SQLRecord.query_time <= end_time)
 
     # 过滤掉空值
-    query = query.filter(SQLRecord.database_name_str != "").filter(SQLRecord.database_name_str != None)
+    query = query.filter(SQLRecord.database_name_str != "") \
+    .filter(SQLRecord.database_name_str != None)
 
     # 以数据库名称分组并统计每组的数量,并取别名为count
-    query = query.with_entities(SQLRecord.database_name_str, func.count(SQLRecord.database_name_str).label("count_1")).group_by(SQLRecord.database_name_str)
+    query = query.with_entities(SQLRecord.database_name_str, func.count(SQLRecord.database_name_str) \
+    .label("count_1")) \
+    .group_by(SQLRecord.database_name_str)
 
     # 排序
     query = query.order_by(func.count(SQLRecord.database_name_str).desc())
@@ -1324,8 +1330,8 @@ def ip_statistics():
 
     table = {
         "columns_map": {
-            "source_ip": "IP地址",
-            "count_1": "查询次数"
+            "source_ip": "客户端IP地址",
+            "count_1": "执行次数"
         },
         "pagination": pagination,
         "operations": [
@@ -1513,10 +1519,10 @@ def export_csv():
     records = query.all()
 
     # 导出文件名 当前服务器时间+用户名
-    filename = f"{datetime.now().strftime('%Y%m%d%H:%M:%S')}_{current_user.username}.csv"
+    filename = f"{datetime.now().strftime('%Y%m%d%H:%M:%S')}_user:{current_user.username}.csv"
 
     # 导出文件路径
-    filepath = os.path.join(settings.STATIC_FOLDER, filename)
+    filepath = os.path.join(settings.CSV_FOLDER, filename)
 
     # 导出文件
     with open(filepath, 'w', encoding='utf-8') as f:
@@ -1531,10 +1537,14 @@ def export_csv():
             f.write(
                 ",".join(
                     [
-                        "\"" + str(getattr(record, key)).replace(";","\;").replace(",","\,") + "\"" if key=="sql_text" else str(getattr(record, key)) for key in table_columns_map.keys()
+                        "\"" + str(getattr(record, key)) \
+                        .replace(";","\;") \
+                        .replace(",","\,") \
+                         + "\"" if key=="sql_text" else str(getattr(record, key)) \
+                        for key in table_columns_map.keys()
                     ]
                 ) + "\n"
             )
 
     # 下载文件
-    return send_from_directory(settings.STATIC_FOLDER, filename, as_attachment=True)
+    return send_from_directory(settings.CSV_FOLDER, filename, as_attachment=True)

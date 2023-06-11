@@ -17,7 +17,13 @@
 <div class="row">
     <div class="card col-6">
         <div class="card-body">
-            <h5 class="card-title text-center">{% if request.args.database_name_str %}当前所选数据库 {% else %}最常使用数据库 {% endif %}</h5>
+            <h5 class="card-title text-center">
+                {% if request.args.database_name_str %}
+                当前所选数据库 
+                {% else %}
+                最常使用数据库 
+                {% endif %}
+            </h5>
             <div class="row text-center">
                 <div class="col-4">
                     <h5>名称</h5>
@@ -46,7 +52,13 @@
     </div>
     <div class="card col-6">
         <div class="card-body">
-            <h5 class="card-title text-center">{% if request.args.table_name_str %}当前所选表 {% else %}最常使用数据表 {% endif %}</h5>
+            <h5 class="card-title text-center">
+                {% if request.args.table_name_str %}
+                当前所选表 
+                {% else %}
+                最常使用数据表 
+                {% endif %}
+            </h5>
             <div class="row text-center">
                 <div class="col-4">
                     <h5>名称</h5>
@@ -203,7 +215,7 @@
                     <h5>查看详情</h5>
                 </div>
                 <div class="col-8">
-                    <a type="button" class="btn btn-primary" href="{{drop_statistics_url}}">>>></a>
+                    <a type="button" class="btn btn-primary" href="{{ddl_statistics_url}}">>>></a>
                 </div>
             </div>
         </div>

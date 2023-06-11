@@ -31,5 +31,6 @@ class Settings(object):
     TEMPLATE_FOLDER = os.path.join(BASE_DIR, 'templates')
 
     STATIC_FOLDER = os.path.join(BASE_DIR, 'static')
+    CSV_FOLDER = os.path.join(STATIC_FOLDER, 'csv')
 
 settings = Settings()

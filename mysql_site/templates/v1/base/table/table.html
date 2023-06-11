@@ -27,7 +27,9 @@
                         <!-- 遍历所有的操作 -->
                         {% for operation in table["operations"] %}
                         <!-- {{operation['name']}} -->
-                        <a class="{{operation['class']}}" href="{{ url_for(operation['view_name'], id=item.id, username=item.user_name, source_ip=item.source_ip,table_name_str=item.table_name_str,database_name_str=item.database_name_str) }}" type="button">{{operation['label']}}</a>
+                        <a class="{{operation['class']}}" 
+                        href="{{ url_for(operation['view_name'], id=item.id, username=item.user_name, source_ip=item.source_ip,table_name_str=item.table_name_str,database_name_str=item.database_name_str) }}" 
+                        type="button">{{operation['label']}}</a>
                         {% endfor %}
                         {% endif %}
                     </td>
@@ -42,9 +44,13 @@
         <div class="col-3 text-center">
             <!--上一页-->
             {% if pagination.has_prev %}
-            <a class="btn btn-primary" href="{{ url_for(current_view_name, page=pagination.prev_num, search=search) }}" type="button">上一页</a>
+            <a class="btn btn-primary" 
+            href="{{ url_for(current_view_name, page=pagination.prev_num, search=search) }}" 
+            type="button">上一页</a>
             {% else %}
-            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=pagination.prev_num, search=search) }}" type="button">上一页</a>
+            <a class="btn btn-primary disabled" 
+            href="{{ url_for(current_view_name, page=pagination.prev_num, search=search) }}" 
+            type="button">上一页</a>
             {% endif %}
         </div>
         <div class="col-6 text-center">
@@ -52,21 +58,31 @@
             {% for page in pagination.iter_pages() %}
             {% if page %}
             {% if page == pagination.page %}
-            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=page, search=search) }}" type="button">{{ page }}</a>
+            <a class="btn btn-primary disabled" 
+            href="{{ url_for(current_view_name, page=page, search=search) }}" 
+            type="button">{{ page }}</a>
             {% else %}
-            <a class="btn btn-primary" href="{{ url_for(current_view_name, page=page, search=search) }}" type="button">{{ page }}</a>
+            <a class="btn btn-primary" 
+            href="{{ url_for(current_view_name, page=page, search=search) }}" 
+            type="button">{{ page }}</a>
             {% endif %}
             {% else %}
-            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=page, search=search) }}" type="button">...</a>
+            <a class="btn btn-primary disabled" 
+            href="{{ url_for(current_view_name, page=page, search=search) }}" 
+            type="button">...</a>
             {% endif %}
             {% endfor %}
         </div>
         <div class="col-3 text-center">
             <!--下一页-->
             {% if pagination.has_next %}
-            <a class="btn btn-primary" href="{{ url_for(current_view_name, page=pagination.next_num, search=search) }}" type="button">下一页</a>
+            <a class="btn btn-primary" 
+            href="{{ url_for(current_view_name, page=pagination.next_num, search=search) }}" 
+            type="button">下一页</a>
             {% else %}
-            <a class="btn btn-primary disabled" href="{{ url_for(current_view_name, page=pagination.next_num, search=search) }}" type="button">下一页</a>
+            <a class="btn btn-primary disabled" 
+            href="{{ url_for(current_view_name, page=pagination.next_num, search=search) }}" 
+            type="button">下一页</a>
             {% endif %}
         </div>
     </div>

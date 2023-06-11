@@ -27,7 +27,7 @@ class SQLRecord(db.Model):
         "exec_time":10, //单位ms
         "query_type": sql_text的查询类型 
     select=1/insert=2/update=3/delete=4/
-    truncate=5/drop=6/system_command=7
+    truncate=5/ddl=6/system_command=7
     system_command指的是use table这样的查看系统语句 展示数据类型时不展示该类型
     }
     """

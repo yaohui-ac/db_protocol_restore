@@ -304,6 +304,7 @@ func (ms *MysqlSession) GenerateQueryPiece() (qp model.QueryPiece) {
 		user, db, err := querySessionInfo(ms.serverPort, mqp.SessionID)
 
 		if err != nil {
+			fmt.Println("mode:", strictMode)
 			util.Log_Error("query user and db from mysql failed <-- %s", err.Error())
 		} else {
 			mqp.VisitUser = user

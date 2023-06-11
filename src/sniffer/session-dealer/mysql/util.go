@@ -9,7 +9,7 @@ import (
 func parseHandshakeResponseHeader(packet *handshakeResponse41, data []byte) (parsedBytes int, err error) {
 	// Ensure there are enough data to read:
 	// http://dev.mysql.com/doc/internals/en/connection-phase-packets.html#packet-Protocol::SSLRequest
-	if len(data) < Capability_Flag_Len+MaxMySQLPacketLen+Character_Set_Len+Reserved_Len {
+	if len(data) < Capability_Flag_Len+Max_Packet_Len+Character_Set_Len+Reserved_Len {
 		return 0, ErrMalformPacket
 	}
 

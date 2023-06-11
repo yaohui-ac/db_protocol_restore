@@ -1,7 +1,7 @@
 package model
 
 import (
-	"fmt"
+	"sniffer/util"
 	"strings"
 
 	"github.com/blastrain/vitess-sqlparser/sqlparser"
@@ -18,7 +18,7 @@ func GetDBDetailQueryType(sql_text string) SqlType {
 
 	stmt, err := sqlparser.Parse(sql_text)
 	if err != nil {
-		fmt.Printf("%+v\n", err)
+		util.Log_Error("sql:[%+v] has error %v", sql_text, err.Error())
 	}
 	switch stmt.(type) {
 	case (*sqlparser.Select):
@@ -46,7 +46,7 @@ func GetTableName(sql_text string, query_type SqlType) string {
 	}
 	stmt, err := sqlparser.Parse(sql_text)
 	if err != nil {
-		fmt.Printf("%+v\n", err)
+		util.Log_Error("sql:[%+v] has error %v", sql_text, err.Error())
 	}
 	switch query_type {
 	case SELECT_TYPE:
