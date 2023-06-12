@@ -123,7 +123,6 @@ func (nc *networkCard) parseTCPPackage(srcIP, dstIP string, tcpPkt *layers.TCP, 
 
 	srcPort := int(tcpPkt.SrcPort)
 	dstPort := int(tcpPkt.DstPort)
-
 	if dstPort == nc.listenPort {
 		// get client ip from proxy auth info
 		var clientIP *string
@@ -145,16 +144,16 @@ func (nc *networkCard) parseTCPPackage(srcIP, dstIP string, tcpPkt *layers.TCP, 
 			clientIP = &srcIP
 			clientPort = srcPort
 		}
-		//	fmt.Printf("source port: %v\n", clientPort)
-		// deal mysql server response
-		err = readToServerPackage(clientIP, clientPort, &dstIP, tcpPkt, nc.receiver)
+
+		//  mysql server response
+		err = readToServerPackage(clientIP, clientPort, &dstIP, dstPort, tcpPkt, nc.receiver)
 		if err != nil {
 			return
 		}
 
 	} else if srcPort == nc.listenPort {
-		// deal mysql client request
-		err = readFromServerPackage(&dstIP, dstPort, tcpPkt)
+		//  mysql client request
+		err = readFromServerPackage(&dstIP, dstPort, &srcIP, srcPort, tcpPkt)
 		if err != nil {
 			return
 		}
@@ -164,7 +163,7 @@ func (nc *networkCard) parseTCPPackage(srcIP, dstIP string, tcpPkt *layers.TCP, 
 }
 
 func readFromServerPackage(
-	clientIP *string, clientPort int, tcpPkt *layers.TCP) (err error) {
+	clientIP *string, clientPort int, serverIP *string, serverPort int, tcpPkt *layers.TCP) (err error) {
 	defer func() {
 		if err != nil {
 			util.Log_Error("read Mysql package send from mysql server to client failed <-- %s", err.Error())
@@ -172,7 +171,7 @@ func readFromServerPackage(
 	}()
 
 	if tcpPkt.FIN {
-		sessionKey := spliceSessionKey(clientIP, clientPort)
+		sessionKey := spliceSessionKey(clientIP, serverIP, clientPort, serverPort)
 		session := sessionPool[*sessionKey]
 		if session != nil {
 			session.Close()
@@ -186,7 +185,7 @@ func readFromServerPackage(
 		return
 	}
 
-	sessionKey := spliceSessionKey(clientIP, clientPort)
+	sessionKey := spliceSessionKey(clientIP, serverIP, clientPort, serverPort)
 	session := sessionPool[*sessionKey]
 	if session != nil {
 		pkt := model.NewTCPPacket(tcpPayload, int64(tcpPkt.Ack), false)
@@ -197,7 +196,7 @@ func readFromServerPackage(
 }
 
 func readToServerPackage(
-	clientIP *string, clientPort int, destIP *string, tcpPkt *layers.TCP,
+	clientIP *string, clientPort int, destIP *string, serverPort int, tcpPkt *layers.TCP,
 	receiver chan model.QueryPiece) (err error) {
 	defer func() {
 
@@ -208,7 +207,7 @@ func readToServerPackage(
 
 	// when client try close connection remove session from session pool
 	if tcpPkt.FIN {
-		sessionKey := spliceSessionKey(clientIP, clientPort)
+		sessionKey := spliceSessionKey(clientIP, destIP, clientPort, serverPort)
 		session := sessionPool[*sessionKey]
 		if session != nil {
 			session.Close()
@@ -223,7 +222,7 @@ func readToServerPackage(
 		return
 	}
 
-	sessionKey := spliceSessionKey(clientIP, clientPort)
+	sessionKey := spliceSessionKey(clientIP, destIP, clientPort, serverPort)
 	session := sessionPool[*sessionKey]
 	if session == nil {
 		session = sd.NewSession(sessionKey, clientIP, clientPort, destIP, snifferPort, receiver)

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"reflect"
+	"sniffer/util"
 	"strconv"
 	"strings"
 	"unsafe"
@@ -49,12 +50,15 @@ func String(b []byte) (s string) {
 	pstring.Len = pbytes.Len
 	return
 }
-func spliceSessionKey(srcIP *string, srcPort int) *string {
-	// sessionKey := fmt.Sprintf("%s:%d", *srcIP, srcPort)
+func spliceSessionKey(clientIP, serverIP *string, clientPort, serverPort int) *string {
 	var buffer = bytes.NewBuffer(make([]byte, 0, 24))
-	buffer.WriteString(*srcIP)
+	buffer.WriteString(*clientIP)
 	buffer.WriteString(":")
-	buffer.WriteString(strconv.Itoa(srcPort))
+	buffer.WriteString(strconv.Itoa(clientPort) + "-")
+	buffer.WriteString(*serverIP)
+	buffer.WriteString(":")
+	buffer.WriteString(strconv.Itoa(serverPort))
 	sessionKey := hack.String(buffer.Bytes())
+	util.Log_Debug(sessionKey)
 	return &sessionKey
 }

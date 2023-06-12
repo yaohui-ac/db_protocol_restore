@@ -65,7 +65,7 @@ func NewMysqlSession(
 		sendSize:           0,
 		pkgCacheLock:       sync.Mutex{},
 	}
-
+	util.Log_Debug("time===>:", time.Now().String())
 	return
 }
 

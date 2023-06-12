@@ -17,7 +17,6 @@ from pyecharts import options as opts
 from pyecharts.charts import Line
 from pyecharts.faker import Faker
 
-
 @app.route('/', methods=['GET'], strict_slashes=False)
 @login_required
 def index():
@@ -110,6 +109,9 @@ def index():
     # pagination
     pagination = query.order_by(SQLRecord.query_time.desc()).paginate(
         page=page, per_page=per_page, error_out=False)
+
+    for item in pagination.items:
+        print("query_time: ",item.query_time)
     current_view_name = "index"
 
     table_template = "v1/page/table.html"

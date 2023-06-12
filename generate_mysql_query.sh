@@ -111,5 +111,5 @@ while true
     execute_drop_table
     echo "drop table done!"
     
-    sleep 2
+    sleep 1
     done

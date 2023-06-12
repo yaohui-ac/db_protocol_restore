@@ -59,15 +59,16 @@ func BufferDetailToDBDetail(s *SqlDetail) *db_sql_detail {
 	db_detail.DatabaseNameStr = s.DatabaseNameStr
 	db_detail.ExecTime = s.ExecTime
 	db_detail.QueryTime = time.Unix(int64(s.QueryTime/1000), 0)
-
 	query_type := GetDBDetailQueryType(db_detail.SqlText)
 	db_detail.QueryType = query_type.Int8()
 	db_detail.TableNameStr = GetTableName(db_detail.SqlText, query_type)
+
+	// util.Log_Info("query_time:====> %v %v", db_detail.QueryTime, s.QueryTime)
 	return &db_detail
 }
 func FlashToDB(buffer []*SqlDetail) {
 	conn := GetPostgreConnection()
-	TestDBRunning(conn)
+	// TestDBRunning(conn)
 	flash_db_list := make([]db_sql_detail, 0)
 	for i := 0; i < len(buffer); i++ {
 		if buffer[i] == nil {
@@ -76,7 +77,9 @@ func FlashToDB(buffer []*SqlDetail) {
 		db_tail := BufferDetailToDBDetail(buffer[i])
 		flash_db_list = append(flash_db_list, *db_tail)
 	}
-
+	if len(flash_db_list) == 0 {
+		return
+	}
 	_, err := conn.Model(&flash_db_list).Insert()
 	if err != nil {
 		util.Log_Error("%+v\n", err)
