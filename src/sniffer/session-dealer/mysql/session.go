@@ -199,7 +199,7 @@ func (ms *MysqlSession) readFromClient(seqID int64, bytes []byte) {
 		}
 
 		seqOffset := seqID - ms.beginSeqID
-		if seqOffset+contentSize > int64(len(ms.cachedStmtBytes)) {
+		if seqOffset-contentSize > int64(len(ms.cachedStmtBytes)) {
 			// not in a normal mysql packet
 			util.Log_Debug("receive an unexpect packet")
 			ms.clear()

@@ -1,7 +1,5 @@
 package mysql
 
-import "sniffer/util"
-
 // coverageNode record tcp package begin and end seq id
 type coverageNode struct {
 	begin int64
@@ -101,7 +99,7 @@ func (crp *coveragePool) NewCoverage(begin, end int64) (cn *coverageNode) {
 }
 
 func (crp *coveragePool) Enqueue(cn *coverageNode) {
-	util.Log_Debug("coveragePool enqueue: %d", len(crp.queue))
+	//util.Log_Debug("coveragePool enqueue: %d", len(crp.queue))
 	if cn == nil {
 		return
 	}
@@ -116,7 +114,7 @@ func (crp *coveragePool) Enqueue(cn *coverageNode) {
 }
 
 func (crp *coveragePool) Dequeue() (cn *coverageNode) {
-	util.Log_Debug("coveragePool dequeue: %d", len(crp.queue))
+	//util.Log_Debug("coveragePool dequeue: %d", len(crp.queue))
 
 	defer func() {
 		cn.begin = -1

@@ -6,13 +6,13 @@ class SQLRecord(db.Model):
     表结构如下：
     { //数据库表内容设计
 
-        "query_time":1677511969, //类型：date类型，存成时间戳 2023-02-27 23:32:49
+        "query_time":1677511969, //类型:date类型,存成时间戳 2023-02-27 23:32:49
 
-        "source_ip":"114.114.114.114", //类型：String
+        "source_ip":"114.114.114.114", //类型:String
 
         "sql_text":"SELECT xx",// 类型: String
 
-        "target_ip":"1.1.1.1",// 类型：String
+        "target_ip":"1.1.1.1",// 类型:String
 
         "user_name":"admin",// 类型: String
 

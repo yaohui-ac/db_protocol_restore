@@ -47,7 +47,7 @@ def index():
     #order_by 0 ID升序 1 ID降序 2 query_time升序 3 query_time降序 4 exec_time升序 5 exec_time降序
     order_by = request.args.get("order_by", 0, type=int)
 
-    print("start-time:",starttime,"end-time:", endtime, "query-type:", query_type)
+   
 
     # query
     query = SQLRecord.query
@@ -110,8 +110,6 @@ def index():
     pagination = query.order_by(SQLRecord.query_time.desc()).paginate(
         page=page, per_page=per_page, error_out=False)
 
-    for item in pagination.items:
-        print("query_time: ",item.query_time)
     current_view_name = "index"
 
     table_template = "v1/page/table.html"
@@ -237,31 +235,31 @@ def index():
                 "name": "order_by",
                 "type": "select",
                 "label": "排序",
-                "placeholder": "请选择排序",
+                "placeholder": "请选择排序方式",
                 "value": order_by or 0,
                 "options": [
                     {
-                        "label": "ID升序",
+                        "label": "按照ID升序",
                         "value": 0
                     },
                     {
-                        "label": "ID降序",
+                        "label": "按照ID降序",
                         "value": 1
                     },
                     {
-                        "label": "query_time升序",
+                        "label": "按照查询时间升序",
                         "value": 2
                     },
                     {
-                        "label": "query_time降序",
+                        "label": "按照查询时间降序",
                         "value": 3
                     },
                     {
-                        "label": "exec_time升序",
+                        "label": "按照执行用时升序",
                         "value": 4
                     },
                     {
-                        "label": "exec_time降序",
+                        "label": "按照执行用时降序",
                         "value": 5
                     }
                 ]
@@ -272,13 +270,13 @@ def index():
                 "name": "search",
                 "type": "submit",
                 "label": "搜索",
-                "class": "btn btn-primary"
+                "class": "btn  bg-info text-white"
             },
             {
                 "name": "export",
                 "type": "a",
                 "label": "导出",
-                "class": "btn btn-success",
+                "class": "btn bg-info text-white",
                 "href": url_for("export_csv", **request.args.to_dict())
             }
         ]
@@ -332,7 +330,7 @@ def user():
                 "name": "detail",
                 "type": "link",
                 "label": "查看该用户搜索详情",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "index",
                 "args": {
                     "username": "user_name"
@@ -342,7 +340,7 @@ def user():
                 "name": "trend",
                 "type": "link",
                 "label": "查看该用户搜索趋势",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "line",
                 "args": {
                     "username": "user_name"
@@ -352,7 +350,7 @@ def user():
                 "name": "user-statistics",
                 "type": "link",
                 "label": "查看该用户搜索统计",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "user_statistics",
                 "args": {
                     "username": "user_name"
@@ -376,7 +374,7 @@ def user():
                 "name": "search",
                 "type": "submit",
                 "label": "搜索",
-                "class": "btn btn-primary"
+                "class": "btn bg-info text-white"
             }
         ]
     }
@@ -574,7 +572,7 @@ def line():
                 "name": "search",
                 "type": "submit",
                 "label": "搜索",
-                "class": "btn btn-primary"
+                "class": "btn bg-info text-white"
             }
         ]
     }
@@ -939,7 +937,7 @@ def user_statistics():
                 "type": "submit",
                 "name": "search",
                 "label": "查询",
-                "class": "btn btn-primary"
+                "class": "btn bg-info text-white"
             }
         ]
     }
@@ -1056,21 +1054,21 @@ def database_statistics():
                 "name": "view",
                 "label": "查看记录",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "index",
             },
             {
                 "name": "trend",
                 "label": "搜索趋势",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "line",
             },
             {
                 "name": "statistics",
                 "label": "搜索统计",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "user_statistics",
             }
         ]
@@ -1117,7 +1115,7 @@ def database_statistics():
                 "name": "search",
                 "label": "查询",
                 "type": "submit",
-                "class": "btn btn-primary"
+                "class": "btn bg-info text-white"
             }
         ]
     }
@@ -1189,21 +1187,21 @@ def table_statistics():
                 "name": "view",
                 "label": "查看记录",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "index",
             },
             {
                 "name": "trend",
                 "label": "搜索趋势",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "line",
             },
             {
                 "name": "statistics",
                 "label": "搜索统计",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "user_statistics",
             }
         ]
@@ -1269,7 +1267,7 @@ def table_statistics():
                 "name": "search",
                 "label": "查询",
                 "type": "submit",
-                "class": "btn btn-primary"
+                "class": "btn bg-info text-white"
             }
         ]
     }
@@ -1342,7 +1340,7 @@ def ip_statistics():
                 "name": "view",
                 "label": "查看记录",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "index",
             },
             {
@@ -1350,7 +1348,7 @@ def ip_statistics():
                 "name": "trend",
                 "label": "搜索趋势",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "line",
             },
             {
@@ -1358,7 +1356,7 @@ def ip_statistics():
                 "name": "statistics",
                 "label": "搜索统计",
                 "type": "button",
-                "class": "btn btn-primary",
+                "class": "btn bg-info text-white",
                 "view_name": "user_statistics",
             }
         ]
@@ -1424,7 +1422,7 @@ def ip_statistics():
                 "name": "search",
                 "label": "查询",
                 "type": "submit",
-                "class": "btn btn-primary"
+                "class": "btn bg-info text-white"
             }
         ]
     }
